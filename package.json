@@ -1,0 +1,34 @@
+{
+  "name": "4in1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+
+    "sep7": "node 1_sep7_index.js",
+    "sep25": "node 2_sep25_index.js",
+    "3": "node 3_oct1_index.js",
+    "4": "node 4_oct1_index.js",
+    "5": "node 5_oct1_index.js"
+  },
+  "author": "chrisc",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/speech": "^6.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.4",
+    "@langchain/core": "^0.2.20",
+    "@langchain/openai": "^0.2.5",
+    "elevenlabs-node": "^1.2.0",
+    "fs": "^0.0.1-security",
+    "mic": "^2.1.2",
+    "openai": "^4.54.0",
+    "sound-play": "^1.1.0",
+    "stream": "0.0.2",
+    "wav": "^1.0.2"
+  }
+}

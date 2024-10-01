@@ -1,0 +1,6 @@
+/node_modules
+/credentials
+/resources
+/audio
+package-lock.json
+.env
