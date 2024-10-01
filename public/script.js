@@ -39,16 +39,16 @@ toggleButton.addEventListener('click', () => {
 });
 
 window.addEventListener('keydown', (e) => {
-  if (e.code === 'Space' && !isSpacePressed) { // If spacebar is pressed and not already in pressed state
-      isSpacePressed = true; // Mark spacebar as pressed
+  if (e.code === 'Space' && !isSpacePressed) {
+      isSpacePressed = true; 
       fetch('/start-recording', { method: 'POST' });
       isRecording();
   }
 });
 
 window.addEventListener('keyup', (e) => {
-  if (e.code === 'Space' && isSpacePressed) { // If spacebar is released
-      isSpacePressed = false; // Mark spacebar as not pressed
+  if (e.code === 'Space' && isSpacePressed) { 
+      isSpacePressed = false; 
       fetch('/stop-recording', { method: 'POST' });
       notRecording();
   }

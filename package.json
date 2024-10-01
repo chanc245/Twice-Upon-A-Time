@@ -7,10 +7,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
 
-    "sep7": "node 1_sep7_index.js",
-    "sep25": "node 2_sep25_index.js",
-    "3": "node 3_oct1_index.js",
-    "4": "node 4_oct1_index.js",
     "5": "node 5_oct1_index.js"
   },
   "author": "chrisc",
