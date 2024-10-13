@@ -4,7 +4,9 @@ package-lock.json
 /credentials
 /resources
 /audio
+user_filelist.txt
 
 .env
+.DS_Store
 
-/node-version-archives
+# /node-version-archives

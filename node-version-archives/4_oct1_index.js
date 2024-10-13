@@ -1,4 +1,3 @@
-//button record without Keywrod
 import mic from 'mic';
 import sound  from 'sound-play';
 import { Writer } from 'wav';
@@ -9,7 +8,6 @@ import { ChatOpenAI } from "@langchain/openai";
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 import voice from 'elevenlabs-node';
 import dotenv from 'dotenv';
-
 import express from 'express';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
@@ -17,7 +15,7 @@ import { dirname, join } from 'path';
 
 dotenv.config();
 
-// routes to html
+// link to html
 const app = express();
 
 app.use(cors());
@@ -33,17 +31,18 @@ app.get('/', (req, res) => {
   res.sendFile(join(__dirname, 'index.html'));
 });
 
+// Add these routes to handle recording actions
 app.post('/start-recording', (req, res) => {
     console.log("Recording started via button...");
     startRecordingProcess();
-    res.sendStatus(200); 
+    res.sendStatus(200); // Send an OK response to indicate recording started
 });
 
 app.post('/stop-recording', (req, res) => {
     console.log("Recording stopped via button...");
-    micInstance.stop();
-    handleSilence();
-    res.sendStatus(200);
+    micInstance.stop(); // Stop the recording process
+    handleSilence(); // Process the recording once stopped
+    res.sendStatus(200); // Send an OK response to indicate recording stopped
 });
 
 const openai = new OpenAI();
@@ -61,8 +60,8 @@ let audioChunks = [];
 // recording process
 const startRecordingProcess = () => {
     console.log("Starting listening process...");
-    micInstance.stop(); 
-    micInputStream.unpipe(); 
+    micInstance.stop(); // Stop any previous instance
+    micInputStream.unpipe(); // Ensure clean stream
     micInstance = mic({ rate: '16000', channels: '1', debug: false });
     micInputStream = micInstance.getAudioStream();
     audioChunks = [];
@@ -112,8 +111,8 @@ const handleSilence = async () => {
     const audioFilename = await saveAudio(audioChunks);
     const message = await transcribeAudio(audioFilename);
     
-    if (message) {
-        console.log("Message detected...");
+    if (message && message.toLowerCase().includes(keyword)) {
+        console.log("Keyword detected...");
         detectedFiles.push(audioFilename);
 
         const responseText = await getOpenAIResponse(message);
@@ -122,11 +121,9 @@ const handleSilence = async () => {
         console.log("Playing audio...");
         await sound.play('./audio/' + fileName);
         console.log("Playback finished...");
-        console.log("---")
-        console.log("")
     }
 
-    cleanupAudioFolder();  // clean up audio folder after processing
+    cleanupAudioFolder();  // Clean up audio folder after processing
 };
 
 // save audio to file
