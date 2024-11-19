@@ -55,6 +55,7 @@ const handleRecording = async () => {
 };
 
 const handleAIProcessing = async (transcription) => {
+  //for voice interaction
   const responseText = await getOpenAIResponse(transcription);
   console.log("--RESPONSE:", responseText);
   gptResponseArchives.push(responseText);
@@ -105,6 +106,59 @@ const handleAIProcessing = async (transcription) => {
   await combinePromise;
 };
 
+const handleVoiceCloning = async (transcription) => {
+  //for voice interaction
+  // const responseText = await getOpenAIResponse(transcription);
+  // console.log("--RESPONSE:", responseText);
+  // gptResponseArchives.push(responseText);
+
+  // console.log("Converting response to speech...");
+  // currentStatus = "Converting response to speech...";
+  // const responseAudioFile = await convertTextToSpeech(responseText, VOICE_ID);
+  // gptAudioFiles.push(responseAudioFile);
+
+  let combinePromise = Promise.resolve();
+
+  if (userAudioFiles.length >= userAudioFilesCombineNum) {
+    console.log("Combining user audio files...");
+    combinePromise = combineAudioFiles(folderPath, userAudioFiles)
+      .then(async (combinedFilePath) => {
+        console.log("User audio combined successfully:", combinedFilePath);
+
+        currentStatus = "Start voice cloning process...";
+        const cloneVoicePromise = cloneUserVoice(
+          combinedFilePath,
+          userCloneNum
+        ).then(async (newVoiceID) => {
+          await deleteOldVoice(VOICE_ID, voiceIDDeleteList);
+
+          userCloneNum += 1;
+          VOICE_ID = newVoiceID;
+          voiceIDList.push(newVoiceID);
+        });
+
+        // const playAudioPromise = playAudio(folderPath, responseAudioFile);
+
+        // await Promise.all([cloneVoicePromise, playAudioPromise]);
+        await Promise.all([cloneVoicePromise]);
+
+        console.log("--Cloning and playback completed.");
+        currentStatus = "Cloning and playback completed...";
+      })
+      .catch((err) => console.error("Error combining audio files:", err));
+  } else {
+    currentStatus =
+      "Interact with system one more time to start voice cloning...";
+    console.log(
+      `Not enough audio files to combine. At least ${userAudioFilesCombineNum} required.`
+    );
+
+    // await playAudio(folderPath, responseAudioFile);
+  }
+
+  await combinePromise;
+};
+
 const handleCleanup = () => {
   cleanupAudioFolder(folderPath, [
     ...userAudioFiles,
@@ -130,14 +184,16 @@ startServer(
   async () => {
     stopRecordingProcess();
     const transcription = await handleRecording();
-    await handleAIProcessing(transcription);
+    // await handleAIProcessing(transcription); //for /public
+    await handleVoiceCloning(transcription); //for /public_nov19
 
     handleCleanup();
 
     debugFunctions();
 
     console.log("ALL ACTION COMPLETE--");
-    currentStatus = "All Action Complete... Please Continue";
+    currentStatus = "All Action Complete... Please continue";
   },
-  () => currentStatus
+  () => currentStatus,
+  () => transcriptionArchives
 );

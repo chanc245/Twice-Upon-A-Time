@@ -158,19 +158,22 @@ function startingConversation(term) {
 
 let transcriptionText = "press . to input your voice";
 
-document.getElementById("inputButton").addEventListener("click", () => {
-  fetchLatestTranscription();
-});
-
-const fetchLatestTranscription = () => {
-  fetch("/latest-transcription")
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Latest transcription:", data.transcription);
-      transcriptionText = data.transcription; // Set global variable
-    })
-    .catch((error) => console.error("Error fetching transcription:", error));
+const updateTranscriptionText = (newTranscription) => {
+  // console.log("Updating transcription text:", newTranscription);
+  transcriptionText = newTranscription;
 };
+
+inputButton.addEventListener("click", async () => {
+  const transcription = await fetchLatestTranscription();
+  if (transcription) {
+    updateTranscriptionText(transcription);
+    if (window.term) {
+      window.term.set_prompt(`> ${transcriptionText}`);
+    }
+  } else {
+    console.error("No transcription data available.");
+  }
+});
 
 // ---------- TERMINAL ---------- //
 // ---------- TERMINAL ---------- //
@@ -193,6 +196,8 @@ This is Eva's Terminal, The brain(back-end) of Eva`,
   );
 
   // startingConversation(term); //commented with debuging
+
+  window.term = term;
 
   term.exec("start"); //debug only!!!
 });
@@ -232,7 +237,6 @@ async function playPuzzle(puzzle) {
       );
     });
 
-    // Pass the current puzzle's setup and solution along with the user input
     const aiResponse = await requestAI(
       userInput,
       puzzle.setup,

@@ -58,3 +58,32 @@ const updateNodeStatus = () => {
 };
 
 setInterval(updateNodeStatus, 500);
+
+const fetchLatestTranscription = () => {
+  return fetch("/latest-transcription", {
+    method: "GET",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Fetched transcription:", data.transcription);
+      return data.transcription;
+    })
+    .catch((error) => {
+      console.error("Error fetching transcription:", error);
+      return null;
+    });
+};
+
+inputButton.addEventListener("click", async () => {
+  const transcription = await fetchLatestTranscription();
+  if (transcription) {
+    updateTranscriptionText(transcription);
+  } else {
+    console.error("No transcription data available.");
+  }
+});
