@@ -1,3 +1,7 @@
+//node.js
+//ver16 nov19
+//final tech prototype
+
 import {
   startRecordingProcess,
   stopRecordingProcess,
@@ -34,8 +38,11 @@ let voiceIDList = [];
 let voiceIDDeleteList = [];
 let userCloneNum = 0;
 
+let currentStatus = "";
+
 const handleRecording = async () => {
   console.log("Processing recording...");
+  currentStatus = "Processing recording...";
   const audioChunks = getAudioChunks();
   const audioFile = await saveAudio(audioChunks);
   userAudioFiles.push(audioFile);
@@ -53,6 +60,7 @@ const handleAIProcessing = async (transcription) => {
   gptResponseArchives.push(responseText);
 
   console.log("Converting response to speech...");
+  currentStatus = "Converting response to speech...";
   const responseAudioFile = await convertTextToSpeech(responseText, VOICE_ID);
   gptAudioFiles.push(responseAudioFile);
 
@@ -64,6 +72,7 @@ const handleAIProcessing = async (transcription) => {
       .then(async (combinedFilePath) => {
         console.log("User audio combined successfully:", combinedFilePath);
 
+        currentStatus = "Start voice cloning process...";
         const cloneVoicePromise = cloneUserVoice(
           combinedFilePath,
           userCloneNum
@@ -80,9 +89,12 @@ const handleAIProcessing = async (transcription) => {
         await Promise.all([cloneVoicePromise, playAudioPromise]);
 
         console.log("--Cloning and playback completed.");
+        currentStatus = "Cloning and playback completed...";
       })
       .catch((err) => console.error("Error combining audio files:", err));
   } else {
+    currentStatus =
+      "Interact with system one more time to start voice cloning...";
     console.log(
       `Not enough audio files to combine. At least ${userAudioFilesCombineNum} required.`
     );
@@ -113,14 +125,19 @@ const debugFunctions = () => {
   console.log("---");
 };
 
-startServer(startRecordingProcess, async () => {
-  stopRecordingProcess();
-  const transcription = await handleRecording();
-  await handleAIProcessing(transcription);
+startServer(
+  startRecordingProcess,
+  async () => {
+    stopRecordingProcess();
+    const transcription = await handleRecording();
+    await handleAIProcessing(transcription);
 
-  handleCleanup();
+    handleCleanup();
 
-  debugFunctions();
+    debugFunctions();
 
-  console.log("ALL ACTION COMPLETE--");
-});
+    console.log("ALL ACTION COMPLETE--");
+    currentStatus = "All Action Complete... Please Continue";
+  },
+  () => currentStatus
+);

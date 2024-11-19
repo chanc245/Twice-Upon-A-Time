@@ -6,6 +6,7 @@ import express from "express";
 import cors from "cors";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import { getGptResultAsString } from "./openai.js";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -14,13 +15,17 @@ const __dirname = dirname(__filename);
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(join(__dirname, "../public")));
+app.use(express.static(join(__dirname, "../public_nov19")));
 
 app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "../public/index.html"));
+  res.sendFile(join(__dirname, "../public_nov19/index.html"));
 });
 
-export const startServer = (startRecording, stopRecording) => {
+export const startServer = (
+  startRecording,
+  stopRecording,
+  getCurrentStatus
+) => {
   app.post("/start-recording", (req, res) => {
     startRecording();
     res.sendStatus(200);
@@ -29,6 +34,11 @@ export const startServer = (startRecording, stopRecording) => {
   app.post("/stop-recording", (req, res) => {
     stopRecording();
     res.sendStatus(200);
+  });
+
+  app.get("/status", (req, res) => {
+    const status = getCurrentStatus();
+    res.json({ status: status || "idle" });
   });
 
   app.listen(port, () => {

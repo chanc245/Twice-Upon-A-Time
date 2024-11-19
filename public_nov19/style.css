@@ -1,85 +1,3 @@
-:root {
-  --ambrosia: #fcdbba;
-  --apricot: #ff8652;
-  --aubergine: #6a2352;
-  --auburn: #a12f2f;
-  --asparagus: #a0c259;
-  --beetroot: #7f0421;
-  --blue-tack: #82bfe0;
-  --bloom: #363a57;
-  --blush: #d67b71;
-  --bronze: #c27940;
-  --bud: #94c15c;
-  --burnt-orange: #ff5f00;
-  --butter: #f2c94c;
-  --strawberry-yogurt: #e4bcad;
-  --carmine: #9a133e;
-  --chocolate: #8f5d38;
-  --chestnut: #81291f;
-  --clay: #7d6050;
-  --conker: #6f3131;
-  --coral: #eb4444;
-  --dusty-purple: #7d6391;
-  --dusty-pink: #e4adad;
-  --emerald: #55b95f;
-  --fern: #4f8d08;
-  --forest: #2e644a;
-  --fudge: #c28742;
-  --grassy: #a8d363;
-  --green: #62b90a;
-  --hazelnut: #d08e5a;
-  --ink: #292c31;
-  --ivory: #f2efe3;
-  --lapis: #2b4d8d;
-  --leafy: #318553;
-  --lemon: #eafc7e;
-  --lime: #73d645;
-  --limestone: #c9c5b5;
-  --magenta: #bc2767;
-  --meadow: #7a9a3e;
-  --melon: #f2994a;
-  --midnight: #1b3955;
-  --mink: #e8c9a1;
-  --mint: #c4ea70;
-  --moss: #7db21c;
-  --mushroom: #ede8d5;
-  --navy: #363a57;
-  --orange: #fd8a04;
-  --pale-lemon: #f4ffdc;
-  --peach: #ffb190;
-  --pond-bottom: #264a46;
-  --powder-blue: #b5d0e0;
-  --powder-pink: #fbd1d1;
-  --primrose: #e1f7b0;
-  --purple: #a95af3;
-  --purple-slate: #545375;
-  --rainforest: #25422e;
-  --raspberry-jam: #3c0d2b;
-  --robins-egg: #b8dee0;
-  --rouge: #cc3737;
-  --royal: #4169e1;
-  --ruby: #d1314b;
-  --sage: #87a376;
-  --sakura: #ffe4e4;
-  --sea-glass: #7fd1ae;
-  --sea-foam: #5d998b;
-  --sea-fog: #758c92;
-  --slate: #7184a5;
-  --spearmint: #94e0cf;
-  --spring: #5acb65;
-  --succulent: #83a944;
-  --twilight: #203763;
-  --vavavoom: #bf0d0d;
-  --white: #ffffff;
-  --yellow: #ffe03d;
-
-  --trans: transparent;
-  --trans05: rgba(255, 255, 255, 0.05);
-  --trans1: rgba(255, 255, 255, 0.1);
-  --trans2: rgba(255, 255, 255, 0.2);
-  --trans4: rgba(255, 255, 255, 0.4);
-}
-
 html {
   background: rgb(50, 50, 50);
 }
@@ -407,6 +325,12 @@ body {
 #recordingIndicator {
   margin-top: 10px;
   font-size: 14px;
-  color: black;
+  color: white;
+  font-weight: bold;
+}
+
+#nodeStatusIndicator {
+  font-size: 14px;
+  color: white;
   font-weight: bold;
 }
