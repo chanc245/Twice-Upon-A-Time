@@ -82,10 +82,27 @@ const evaluationPrompt = (setup, solution, userInput, clue, keyword) =>
   The player's current guess is: "${userInput}".
 `;
 
+const promptCorrect = (setup, solution, clue, allGuess) =>
+  `
+  You are an AI assisting in a puzzle game.
+  
+  The current puzzle for the player to guess is: ${setup}.
+  The answer is: ${solution}.
+  Some additional clues are: ${clue}.
+  All of player's past guess is: ${allGuess}.
+
+  Please do the following things in a few sentence:
+  1. Congratulate the player for guessing correctly.
+  2. Mention some of the player’s past guesses. 
+  3. Explain how, based on those past guesses, they came up with the correct answer. 
+`;
+
 const evaEnding =
   "\nYou can leave now.. I will be waiting for your next visit... :)\n(to restart, refresh the page.)";
 
 let currentPuzzleIndex = 0;
+
+let allUserGuesses = [];
 
 const loadPuzzle = function () {
   if (currentPuzzleIndex >= puzzles.length) {
@@ -237,6 +254,7 @@ async function playPuzzle(puzzle) {
       );
     });
 
+    allUserGuesses.push(userInput);
     const aiResponse = await requestAI(
       userInput,
       puzzle.setup,
@@ -252,6 +270,19 @@ async function playPuzzle(puzzle) {
     // console.log(`--aiResponse.includes(correct): ${aiResponse.toLowerCase().includes("correct")}`) //correct detection
 
     if (aiResponse.toLowerCase().includes("correct")) {
+      const aiResponse = await requestAIResult(
+        puzzle.setup,
+        puzzle.solution,
+        puzzle.clue,
+        allUserGuesses
+      );
+
+      terminal.echo(`\nEva
+    ${aiResponse}
+      `);
+
+      await postTextToSpeech(aiResponse);
+
       terminal.pop();
       break;
     }
@@ -276,10 +307,71 @@ async function requestAI(input, setup, solution, clue, keyword) {
     console.log("--AI response OK");
     const jsonData = await response.json();
     const aiModResponse = jsonData.ai;
-    console.log(`==Gemini Output: ${aiModResponse}`);
+    console.log(`==AI Output: ${aiModResponse}`);
     return aiModResponse;
   } else {
     console.error("Error in submitting data.");
     return "Error in submitting data.";
   }
 }
+
+async function requestAIResult(setup, solution, clue, allGuess) {
+  console.log(`--requestAIResult started`);
+
+  const prompt = promptCorrect(setup, solution, clue, allGuess);
+
+  // Make the POST request
+  const response = await fetch("/submit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ input: prompt }),
+  });
+
+  if (response.ok) {
+    console.log("--AI response OK");
+    const jsonData = await response.json();
+    const aiModResponse = jsonData.ai;
+    console.log(`==AI Output: ${aiModResponse}`);
+
+    return aiModResponse;
+  } else {
+    console.error("Error in submitting data.");
+    return "Error in submitting data.";
+  }
+}
+
+const postTextToSpeech = async (text) => {
+  try {
+    const voiceIdResponse = await fetch("/voice-id", {
+      method: "GET",
+    });
+
+    if (!voiceIdResponse.ok) {
+      throw new Error("Failed to retrieve the voice ID.");
+    }
+
+    const { voiceId } = await voiceIdResponse.json();
+
+    const response = await fetch("/text-to-speech", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text, voiceId }),
+    });
+
+    if (response.ok) {
+      const { audioFilePath } = await response.json();
+      console.log("Text-to-speech successful. Audio file path:", audioFilePath);
+
+      const audio = new Audio(audioFilePath);
+      audio.play();
+    } else {
+      console.error("Failed to convert text to speech.");
+    }
+  } catch (error) {
+    console.error("Error in text-to-speech POST request:", error);
+  }
+};

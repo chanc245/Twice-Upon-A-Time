@@ -7,6 +7,16 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { getGptResultAsString } from "./openai.js";
+import {
+  getVoiceId,
+  getCurrentStatus,
+  setCurrentStatus,
+} from "./gloVariable.js";
+import { convertTextToSpeech } from "./elevenlab.js";
+import { playAudio } from "./audio.js";
+import path from "path";
+
+const audioFolderPath = "./audio";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -53,9 +63,39 @@ export const startServer = (
     }
   });
 
-  app.get("/status", (req, res) => {
-    const status = getCurrentStatus();
-    res.json({ status: status || "idle" });
+  app.get("/voice-id", (req, res) => {
+    const voiceId = getVoiceId();
+    if (voiceId) {
+      res.json({ voiceId });
+    } else {
+      res.status(404).json({ error: "No voice ID available." });
+    }
+  });
+
+  app.post("/text-to-speech", async (req, res) => {
+    const { text, voiceId = getVoiceId() } = req.body;
+
+    try {
+      const audioFileName = await convertTextToSpeech(text, voiceId);
+      const audioFilePath = path.join(audioFolderPath, audioFileName);
+
+      await playAudio(audioFolderPath, audioFileName);
+
+      res.json({ audioFilePath });
+    } catch (error) {
+      console.error("Error in /text-to-speech endpoint:", error);
+      res.status(500).json({ error: "Text-to-speech conversion failed." });
+    }
+  });
+
+  app.get("/status", async (req, res) => {
+    try {
+      const status = await getCurrentStatus();
+      res.json({ status: status || "idle" });
+    } catch (error) {
+      console.error("Error fetching status:", error);
+      res.status(500).json({ error: "Failed to fetch status" });
+    }
   });
 
   app.get("/latest-transcription", (req, res) => {

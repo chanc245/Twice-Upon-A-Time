@@ -47,13 +47,18 @@ document.getElementById("inputButton").addEventListener("click", () => {
 
 const updateNodeStatus = () => {
   fetch("/status")
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((data) => {
       nodeStatusIndicator.textContent = data.status || "idle";
     })
     .catch((error) => {
       console.error("Error fetching node status:", error);
-      nodeStatusIndicator.textContent = "---";
+      nodeStatusIndicator.textContent = "error";
     });
 };
 
