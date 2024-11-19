@@ -91,7 +91,7 @@ const startRecordingProcess = () => {
     micInputStream.pipe(new Writable({
         write(chunk, _, callback) {
             if (!isRecording) return callback();
-            audioChunks.push(chunk);
+            audioChunks.push(chunk); //why is this here???!! 
             callback();
         }
     }));

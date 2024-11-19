@@ -1,0 +1,499 @@
+:root {
+  --ambrosia: #fcdbba;
+  --apricot: #ff8652;
+  --aubergine: #6a2352;
+  --auburn: #a12f2f;
+  --asparagus: #a0c259;
+  --beetroot: #7f0421;
+  --blue-tack: #82bfe0;
+  --bloom: #363a57;
+  --blush: #d67b71;
+  --bronze: #c27940;
+  --bud: #94c15c;
+  --burnt-orange: #ff5f00;
+  --butter: #f2c94c;
+  --strawberry-yogurt: #e4bcad;
+  --carmine: #9a133e;
+  --chocolate: #8f5d38;
+  --chestnut: #81291f;
+  --clay: #7d6050;
+  --conker: #6f3131;
+  --coral: #eb4444;
+  --dusty-purple: #7d6391;
+  --dusty-pink: #e4adad;
+  --emerald: #55b95f;
+  --fern: #4f8d08;
+  --forest: #2e644a;
+  --fudge: #c28742;
+  --grassy: #a8d363;
+  --green: #62b90a;
+  --hazelnut: #d08e5a;
+  --ink: #292c31;
+  --ivory: #f2efe3;
+  --lapis: #2b4d8d;
+  --leafy: #318553;
+  --lemon: #eafc7e;
+  --lime: #73d645;
+  --limestone: #c9c5b5;
+  --magenta: #bc2767;
+  --meadow: #7a9a3e;
+  --melon: #f2994a;
+  --midnight: #1b3955;
+  --mink: #e8c9a1;
+  --mint: #c4ea70;
+  --moss: #7db21c;
+  --mushroom: #ede8d5;
+  --navy: #363a57;
+  --orange: #fd8a04;
+  --pale-lemon: #f4ffdc;
+  --peach: #ffb190;
+  --pond-bottom: #264a46;
+  --powder-blue: #b5d0e0;
+  --powder-pink: #fbd1d1;
+  --primrose: #e1f7b0;
+  --purple: #a95af3;
+  --purple-slate: #545375;
+  --rainforest: #25422e;
+  --raspberry-jam: #3c0d2b;
+  --robins-egg: #b8dee0;
+  --rouge: #cc3737;
+  --royal: #4169e1;
+  --ruby: #d1314b;
+  --sage: #87a376;
+  --sakura: #ffe4e4;
+  --sea-glass: #7fd1ae;
+  --sea-foam: #5d998b;
+  --sea-fog: #758c92;
+  --slate: #7184a5;
+  --spearmint: #94e0cf;
+  --spring: #5acb65;
+  --succulent: #83a944;
+  --twilight: #203763;
+  --vavavoom: #bf0d0d;
+  --white: #ffffff;
+  --yellow: #ffe03d;
+
+  --trans: transparent;
+  --trans05: rgba(255, 255, 255, 0.05);
+  --trans1: rgba(255, 255, 255, 0.1);
+  --trans2: rgba(255, 255, 255, 0.2);
+  --trans4: rgba(255, 255, 255, 0.4);
+}
+
+html {
+  /* ----- OPTION ONE ----- */
+  /* ----- OPTION ONE ----- */
+  /* ----- OPTION ONE ----- */
+
+  /* background-color: var(--limestone);
+  background-image: repeating-radial-gradient(circle at 0.22em 0.5em, var(--trans), var(--trans) 0.16em, var(--ink) 0.17em, var(--ink) 0.23em, var(--trans) 0.24em, var(--trans) 0.25em), repeating-radial-gradient(circle at 0.78em 0.5em, var(--trans), var(--trans) 0.16em, var(--ink) 0.17em, var(--ink) 0.23em, var(--trans) 0.24em, var(--trans) 0.25em), repeating-radial-gradient(circle at 0.5em 0.78em, var(--trans), var(--trans) 0.16em, var(--ink) 0.17em, var(--ink) 0.23em, var(--trans) 0.24em, var(--trans) 0.25em), repeating-radial-gradient(circle at 0.5em 0.22em, var(--trans), var(--trans) 0.16em, var(--ink) 0.17em, var(--ink) 0.23em, var(--trans) 0.24em, var(--trans) 0.25em);
+  background-size: 1em 1em; */
+
+  /* ----- OPTION ONE ----- */
+  /* ----- OPTION ONE ----- */
+  /* ----- OPTION ONE ----- */
+
+  /* ----- OPTION TWO ----- */
+  /* ----- OPTION TWO ----- */
+  /* ----- OPTION TWO ----- */
+
+  background: radial-gradient(#aeaeae 3px, transparent 4px),
+    radial-gradient(#aeaeae 3px, transparent 4px),
+    linear-gradient(rgb(50, 50, 50) 4px, transparent 0),
+    linear-gradient(
+      45deg,
+      transparent 74px,
+      transparent 75px,
+      #a4a4a4 75px,
+      #a4a4a4 76px,
+      transparent 77px,
+      transparent 109px
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 75px,
+      transparent 76px,
+      #a4a4a4 76px,
+      #a4a4a4 77px,
+      transparent 78px,
+      transparent 109px
+    ),
+    rgb(50, 50, 50);
+  background-size: 109px 109px, 109px 109px, 100% 6px, 109px 109px, 109px 109px;
+  background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+
+  /* ----- OPTION TWO ----- */
+  /* ----- OPTION TWO ----- */
+  /* ----- OPTION TWO ----- */
+
+  /* ----- OPTION THREE ----- */
+  /* ----- OPTION THREE ----- */
+  /* ----- OPTION THREE ----- */
+
+  /* background:
+    radial-gradient(hsl(0, 100%, 27%) 4%, hsl(0, 100%, 18%) 9%, hsla(0, 100%, 20%, 0) 9%) 0 0,
+    radial-gradient(hsl(0, 100%, 27%) 4%, hsl(0, 100%, 18%) 8%, hsla(0, 100%, 20%, 0) 10%) 50px 50px,
+    radial-gradient(hsla(0, 100%, 30%, 0.8) 20%, hsla(0, 100%, 20%, 0)) 50px 0,
+    radial-gradient(hsla(0, 100%, 30%, 0.8) 20%, hsla(0, 100%, 20%, 0)) 0 50px,
+    radial-gradient(hsla(0, 100%, 20%, 1) 35%, hsla(0, 100%, 20%, 0) 60%) 50px 0,
+    radial-gradient(hsla(0, 100%, 20%, 1) 35%, hsla(0, 100%, 20%, 0) 60%) 100px 50px,
+    radial-gradient(hsla(0, 100%, 15%, 0.7), hsla(0, 100%, 20%, 0)) 0 0,
+    radial-gradient(hsla(0, 100%, 15%, 0.7), hsla(0, 100%, 20%, 0)) 50px 50px,
+    linear-gradient(45deg, hsla(0, 100%, 20%, 0) 49%, hsla(0, 100%, 0%, 1) 50%, hsla(0, 100%, 20%, 0) 70%) 0 0,
+    linear-gradient(-45deg, hsla(0, 100%, 20%, 0) 49%, hsla(0, 100%, 0%, 1) 50%, hsla(0, 100%, 20%, 0) 70%) 0 0;
+  background-color: #300;
+  background-size: 100px 100px; */
+
+  /* ----- OPTION THREE ----- */
+  /* ----- OPTION THREE ----- */
+  /* ----- OPTION THREE ----- */
+
+  /* ----- OPTION FOUR ----- */
+  /* ----- OPTION FOUR ----- */
+  /* ----- OPTION FOUR ----- */
+
+  /* --s: 100px;
+  --c1: #CC2A41;
+  --c2: #351330;
+
+  --_g: #0000 24%,
+    var(--c2) 26% 34%, var(--c1) 36% 44%,
+    var(--c2) 46% 54%, var(--c1) 56% 64%,
+    var(--c2) 66% 74%, #0000 76%;
+  background:
+    radial-gradient(100% 100% at 100% 0, var(--_g)),
+    radial-gradient(100% 100% at 0 100%, var(--_g)),
+    radial-gradient(var(--c2) 14%, var(--c1) 16%) calc(var(--s)/2) calc(var(--s)/2);
+  background-size: var(--s) var(--s); */
+
+  /* ----- OPTION FOUR ----- */
+  /* ----- OPTION FOUR ----- */
+  /* ----- OPTION FOUR ----- */
+}
+
+/* DEBUGGING */
+/* *{
+  box-sizing: border-box;
+  border: 0.1px chartreuse solid;
+} */
+
+body {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: center; */
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#main {
+  /* display: none; */
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+}
+
+.inter {
+  border: 5px solid #9e9e9e9e;
+  /* padding: 20px; */
+}
+
+#commandDiv {
+  /* height: 65vh; */
+  /* width: 42vw; */
+  overflow-x: auto;
+  overflow-y: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  /* justify-content: center; */
+
+  background-color: rgb(39, 39, 39);
+}
+
+/* TERMINAL COLOR */
+/* TERMINAL COLOR */
+/* TERMINAL COLOR */
+/* TERMINAL COLOR */
+/* TERMINAL COLOR */
+
+:root {
+  --size: 1.4;
+}
+
+.terminal {
+  --color: rgb(200, 200, 200);
+}
+
+.cmd {
+  --color: rgb(215, 100, 100);
+}
+
+.cmd-prompt {
+  --color: rgb(215, 100, 100);
+}
+
+/* TERMAL FONT */
+/* TERMAL FONT */
+/* TERMAL FONT */
+/* TERMAL FONT */
+/* TERMAL FONT */
+
+/* :root {
+  --size: 2.5;
+  --font: "Sliver";
+}
+
+@font-face {
+  font-family: "Sliver";
+  src: url("./assets/font/Silver.ttf");
+}
+
+.preloader {
+  font-family: "Sliver", sans-serif;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+} */
+
+/* HTML LAYOUT */
+/* HTML LAYOUT */
+/* HTML LAYOUT */
+/* HTML LAYOUT */
+/* HTML LAYOUT */
+
+.container {
+  display: flex;
+  justify-content: center;
+
+  align-items: stretch;
+  align-content: stretch;
+
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  /* border: 3px solid #7f9cf4; */
+
+  margin: 50px;
+}
+
+.hover-top {
+  align-self: flex-end;
+}
+
+.flex-container {
+  z-index: 0;
+
+  display: flex;
+  justify-content: center;
+
+  align-items: stretch;
+  align-content: stretch;
+
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  height: 80vh;
+  width: 100%;
+
+  gap: 30px;
+}
+
+.box-left {
+  display: flex;
+  justify-content: center;
+
+  align-self: stretch;
+  align-items: stretch;
+  align-content: stretch;
+
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  height: 100%;
+  width: 30%;
+
+  gap: 50px;
+}
+
+.box-cont {
+  /* align-self:stretch; */
+  width: 70%;
+  border: 2px solid #ffffff;
+}
+
+.box-top {
+  border: 2px solid #ffffff;
+
+  width: 100%;
+  height: 100%;
+
+  background-image: url("./assets/img/Ara-motion.gif");
+  background-color: #323232;
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center 35px;
+}
+
+.box-bot {
+  width: 100%;
+  height: 150px;
+
+  background-image: url("./assets/img/eva-terminal-title.png");
+  background-color: #323232;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: center 0px;
+}
+
+/* HTML HOVER LAYOUT */
+/* HTML HOVER LAYOUT */
+/* HTML HOVER LAYOUT */
+/* HTML HOVER LAYOUT */
+/* HTML HOVER LAYOUT */
+
+.hover-flex-container {
+  z-index: 1;
+
+  position: fixed;
+  top: 50px;
+  right: 50px;
+
+  display: flex;
+  justify-content: center;
+
+  align-items: stretch;
+  align-content: stretch;
+
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  height: 80vh;
+  width: 88vw;
+
+  gap: 30px;
+
+  /* margin-top: 10px; */
+
+  display: none;
+}
+
+.hover-box-left {
+  background-color: rgba(128, 128, 128, 0);
+  display: none;
+
+  display: flex;
+  justify-content: center;
+
+  align-self: stretch;
+  align-items: stretch;
+  align-content: stretch;
+
+  flex-direction: column;
+  flex-wrap: nowrap;
+
+  height: 100%;
+  width: 30%;
+
+  gap: 50px;
+}
+
+@font-face {
+  font-family: "Silver";
+  src: url("./assets/font/Silver.ttf");
+}
+
+.hover-box-right {
+  background-color: rgb(39, 39, 39);
+
+  align-self: stretch;
+
+  width: 70%;
+
+  /* display: flex; */
+
+  justify-content: center;
+  align-items: center;
+
+  font-family: "Silver", sans-serif;
+  text-align: center;
+  color: white;
+}
+
+.hover-element {
+  cursor: pointer;
+}
+
+.hover-element:hover + .hover-flex-container,
+.hover-flex-container:hover {
+  display: flex;
+}
+
+/* SOCIAL MEDIA */
+/* SOCIAL MEDIA */
+/* SOCIAL MEDIA */
+/* SOCIAL MEDIA */
+/* SOCIAL MEDIA */
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 50px;
+}
+
+.social-links a {
+  text-decoration: none;
+  display: block;
+
+  flex-wrap: nowrap;
+}
+
+.hover-text {
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid #4169E1; */
+  background-color: #272727;
+  font-family: "Silver";
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hover-text h2 {
+  padding: 0;
+  margin: 0;
+
+  text-align: center;
+  color: rgb(220, 220, 220);
+
+  font-size: 35px;
+  font-weight: 150;
+}
+
+.box-right {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+#recordingIndicator {
+  margin-top: 10px;
+  font-size: 14px;
+  color: black;
+  font-weight: bold;
+}
