@@ -142,10 +142,10 @@ const handleVoiceCloning = async (transcription) => {
           voiceIDList.push(newVoiceID);
         });
 
-        await Promise.all([cloneVoicePromise]);
-        console.log("--Cloning and playback completed.");
-        setCurrentStatus("Cloning and playback completed...");
-        currentStatus = "Cloning and playback completed...";
+        // await Promise.all([cloneVoicePromise]);
+        console.log("--Cloning completed.");
+        setCurrentStatus("Cloning completed...");
+        currentStatus = "Cloning completed...";
       })
       .catch((err) => console.error("Error combining audio files:", err));
   } else {
