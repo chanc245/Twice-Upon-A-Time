@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "1": "node index.js",
+    "esp": "nodemon index_arduino.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "chrisc",
@@ -25,8 +26,10 @@
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.4",
     "openai": "^4.54.0",
+    "socket.io": "^4.8.1",
     "sound-play": "^1.1.0",
     "stream": "0.0.2",
-    "wav": "^1.0.2"
+    "wav": "^1.0.2",
+    "ws": "^8.18.1"
   }
 }
