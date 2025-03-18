@@ -39,7 +39,7 @@ let transcriptionArchives = [];
 let gptResponseArchives = [];
 
 const userAudioFilesCombineNum = 1;
-let VOICE_ID = "pMsXgVXv3BLzUgSXRplE";
+let VOICE_ID = "Xb7hH8MSUJpSbSDYk0k2";
 let voiceIDList = [];
 let voiceIDDeleteList = [];
 let userCloneNum = 0;

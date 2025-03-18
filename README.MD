@@ -14,3 +14,4 @@ Utilizing the [ElevenLabs API](https://github.com/elevenlabs/elevenlabs-js).
 - 1 LED light  
 - 2 micro servos  
 - 1 LED light strip  
+[arduino code archive](https://github.com/chanc245/Once-Upon-A-Tale/tree/main/arduino-archive)
