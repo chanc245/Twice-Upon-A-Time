@@ -5,7 +5,7 @@ import { dirname, join } from "path";
 import http from "http";
 import { WebSocketServer } from "ws";
 
-// express setup
+// Express setup
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,23 +22,40 @@ app.get("/", (req, res) => {
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
+// Store connected clients
+const clients = new Set();
+
+let messageCount = 0;
+
 wss.on("connection", (ws) => {
   console.log("New client connected!");
-
-  ws.on("message", (message) => {
-    const messageString = message.toString();
-    console.log(`Received message: ${messageString}`);
-    ws.send(`Server received: ${messageString}`);
-  });
+  clients.add(ws); // Store the connected client
 
   ws.on("close", () => {
     console.log("Client disconnected");
+    clients.delete(ws); // Remove the client when disconnected
   });
 
   ws.on("error", (error) => {
     console.error("WebSocket error:", error);
   });
 });
+
+// Global function to send messages to all connected Arduino clients
+function sendMsgToArduino(message) {
+  clients.forEach((client) => {
+    if (client.readyState === client.OPEN) {
+      client.send(message);
+      console.log(`Sent to Arduino: [${message}]`);
+    }
+  });
+}
+
+// Send a message to Arduino every 5 seconds
+setInterval(() => {
+  messageCount++;
+  sendMsgToArduino(`Message #${messageCount}`);
+}, 5000);
 
 // Start server
 const PORT = 8080;

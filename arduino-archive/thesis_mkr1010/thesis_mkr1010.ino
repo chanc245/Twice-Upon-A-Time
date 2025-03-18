@@ -42,20 +42,14 @@ void setup() {
   // Check for WiFi module
   if (WiFi.status() == WL_NO_MODULE) {
     Serial.println("Communication with WiFi module failed!");
-    while (true); // Don't continue
-  }
-
-  // Check firmware version
-  String fv = WiFi.firmwareVersion();
-  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
-    Serial.println("Please upgrade the firmware");
+    while (true); 
   }
 
   // WiFi setup
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
-  // Attempt to connect to WiFi network
+  // connect to WiFi network
   int status = WL_IDLE_STATUS;
   while (status != WL_CONNECTED) {
     status = WiFi.begin(ssid, password);
@@ -75,11 +69,4 @@ void setup() {
 
 void loop() {
   webSocket.loop();
-
-  if (alreadyConnected) {
-    // Testing Connection
-    webSocket.sendTXT("Arduino MKR WiFi 1010 says hi!");
-    Serial.println("[WSc] Sent: Arduino MKR WiFi 1010 says hi!");
-    delay(1000);
-  }
 }
