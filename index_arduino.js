@@ -18,6 +18,14 @@ app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "./public_arduino/index_arduino.html"));
 });
 
+app.get("/light/on", (req, res) => {
+  sendMsgToArduino("1");
+});
+
+app.get("/light/off", (req, res) => {
+  sendMsgToArduino("2");
+});
+
 // Create HTTP server and WebSocket server
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
@@ -33,6 +41,7 @@ wss.on("connection", (ws) => {
 
   ws.on("close", () => {
     console.log("Client disconnected");
+    console.log("---------------------");
     clients.delete(ws); // Remove the client when disconnected
   });
 
@@ -46,16 +55,10 @@ function sendMsgToArduino(message) {
   clients.forEach((client) => {
     if (client.readyState === client.OPEN) {
       client.send(message);
-      console.log(`Sent to Arduino: [${message}]`);
+      console.log(`Sent to Arduino: ${message}`);
     }
   });
 }
-
-// Send a message to Arduino every 5 seconds
-setInterval(() => {
-  messageCount++;
-  sendMsgToArduino(`Message #${messageCount}`);
-}, 5000);
 
 // Start server
 const PORT = 8080;
