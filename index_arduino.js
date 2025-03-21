@@ -63,6 +63,7 @@ function sendMsgToArduino(message) {
 // Start server
 const PORT = 8080;
 server.listen(PORT, () => {
+  console.log(`------------------------------`);
   console.log(`Server is running on port ${PORT}`);
   console.log(`WebSocket server is ready`);
 });
