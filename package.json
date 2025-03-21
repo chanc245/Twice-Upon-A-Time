@@ -1,7 +1,7 @@
 {
-  "name": "24-25-thesis",
+  "name": "once-upon-a-tale",
   "version": "1.0.0",
-  "description": "",
+  "description": "An interactive storytelling experience combining physical computation with AI voice cloning technology",
   "main": "index.js",
   "type": "module",
   "scripts": {
