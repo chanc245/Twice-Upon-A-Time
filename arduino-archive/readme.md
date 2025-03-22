@@ -6,9 +6,9 @@
  - html file: `/public_arduino/index_arduino.html`
  - node.js: `index_arduino.js`
 
-## Note
-- Arduino MRK 1010 is WAY FASTER than esp32
-- when switch from ESP32's `<WiFi101.h>` library into MKR 1010's `<WiFiNINA.h>`, in the `WebSockets_Generic` library, will need to change from `#include <WiFi101.h>` to `#include <WiFiNINA.h>`.
+> [!NOTE]
+> - Arduino MRK 1010 is WAY FASTER than esp32
+> - when switch from ESP32's `<WiFi101.h>` library into MKR 1010's `<WiFiNINA.h>`, in the `WebSockets_Generic` library, will need to change from `#include <WiFi101.h>` to `#include <WiFiNINA.h>`.
 
 ---
 
@@ -30,9 +30,8 @@ Use a resistor voltage divider (22kΩ and 10kΩ) to step down the 5V signal from
 `TX(arduino)` - `22k resister` - `RX2(ESP32)` - `10k resister` - `GND(esp32)` - `GND(arduino)`
 `RX(arduino)` - `TX2(esp32)`
 
-## Note
-
-- `Arduino` - When uploading code to the Arduino, make sure the TX and RX wires are disconnected (otherwise the upload will fail).
-- `ESP32` - When uploading code to the ESP32, when it show `Connecting...`, press the `BOOT` button on ESP32.
-- `ESP32` - When uploading code to the ESP32, if it shows: `A fatal error occurred: The chip stopped responding`. Upload code again hold the `BOOT` on ESP32 until see `Connecting...` then release.
-- Using two computers (one connected to the ESP32 and one to the Arduino) will be easier since you can check both serial monitors simultaneously.
+> [!NOTE]
+> - `Arduino` - When uploading code to the Arduino, make sure the TX and RX wires are disconnected (otherwise the upload will fail).
+> - `ESP32` - When uploading code to the ESP32, when it show `Connecting...`, press the `BOOT` button on ESP32.
+> - `ESP32` - When uploading code to the ESP32, if it shows: `A fatal error occurred: The chip stopped responding`. Upload code again hold the `BOOT` on ESP32 until see `Connecting...` then release.
+> - Using two computers (one connected to the ESP32 and one to the Arduino) will be easier since you can check both serial monitors simultaneously.
