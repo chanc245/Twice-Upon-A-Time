@@ -14,6 +14,7 @@ import {
 } from "./gloVariable.js";
 import { convertTextToSpeech } from "./elevenlab.js";
 import { playAudio } from "./audio.js";
+import { handleRecording } from "../index_apr8_mvp.js";
 import path from "path";
 
 const audioFolderPath = "./audio";
@@ -27,10 +28,10 @@ let transcriptionArchives = [];
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(join(__dirname, "../public_proto_nov19")));
+app.use(express.static(join(__dirname, "../public_apr8_mvp")));
 
 app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "../public_proto_nov19/index.html"));
+  res.sendFile(join(__dirname, "../public_apr8_mvp/index.html"));
 });
 
 export const startServer = (
@@ -44,9 +45,32 @@ export const startServer = (
     res.sendStatus(200);
   });
 
-  app.post("/stop-recording", (req, res) => {
+  app.post("/stop-recording", async (req, res) => {
     stopRecording();
-    res.sendStatus(200);
+
+    const prompt = req.body?.prompt || "You are a helpful guide.";
+    const defaultVoiceId = "ZF6FPAbjXT4488VcRRnw"; //Amelia
+
+    try {
+      const transcription = await handleRecording();
+
+      console.log("📥 Prompt from frontend:", prompt);
+      console.log("🗣️ Latest transcription:", transcription);
+
+      const fullPrompt = `${prompt}\nUser said: ${transcription}`;
+      const responseText = await getGptResultAsString(fullPrompt);
+
+      const audioFileName = await convertTextToSpeech(
+        responseText,
+        defaultVoiceId
+      );
+      const audioFilePath = path.join(audioFolderPath, audioFileName);
+
+      res.json({ responseText, audioFilePath: `/audio/${audioFileName}` });
+    } catch (error) {
+      console.error("❌ Error in /stop-recording:", error);
+      res.status(500).json({ error: "Failed to process voice interaction." });
+    }
   });
 
   app.post("/submit", async (req, res) => {

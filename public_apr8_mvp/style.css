@@ -1,0 +1,46 @@
+:root {
+  --bg-color: lightgray;
+  --box-border-color: rgb(169, 169, 169);
+  --text-color: gray;
+  --text-secondary-color: #bcc429;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Averia Serif Libre", cursive;
+  text-align: center;
+}
+
+#content {
+  width: 960px;
+  height: 540px;
+  box-sizing: border-box;
+  padding: 20px;
+  display: flex;
+  border: 3px dashed var(--box-border-color);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  font-size: 50px;
+  color: var(--text-color);
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+p.small {
+  font-size: 24px;
+  color: var(--text-secondary-color);
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+}

@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "1": "node index.js",
+    "2": "nodemon index_apr8_mvp.js",
     "adn": "nodemon index_arduino.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
