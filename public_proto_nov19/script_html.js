@@ -1,6 +1,7 @@
 // script_html.js
-// HTML Communication
-// post request + direct link to html functions
+//  Handles interaction with the backend for recording, status, and transcription.
+//  Listens for . key (period) to toggle recording.
+//  Auto-updates node status every 500ms.
 
 const recordingIndicator = document.getElementById("recordingIndicator");
 const inputButton = document.getElementById("inputButton");

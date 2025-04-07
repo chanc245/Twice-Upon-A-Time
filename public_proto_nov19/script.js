@@ -1,3 +1,8 @@
+// script.js
+//  Manages the entire puzzle logic.
+//  Contains the puzzles and a clever evaluationPrompt() to evaluate guesses via GPT.
+//  Runs a terminal session through jQuery Terminal with embedded AI logic and text-to-speech feedback.
+
 const puzzles = [
   {
     setup:
