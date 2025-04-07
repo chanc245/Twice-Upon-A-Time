@@ -1,8 +1,6 @@
 # node related files #
 /node_modules
 package-lock.json
-/node-version-archives/*
-/node-version-archives
 
 # env related files #
 /credentials
