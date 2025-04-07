@@ -12,10 +12,12 @@ const __dirname = dirname(__filename);
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(join(__dirname, "./public_arduino")));
+app.use(express.static(join(__dirname, "./public-archive/public_arduino")));
 
 app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "./public_arduino/index_arduino.html"));
+  res.sendFile(
+    join(__dirname, "./public-archive/public_arduino/index_arduino.html")
+  );
 });
 
 app.get("/light/on", (req, res) => {
