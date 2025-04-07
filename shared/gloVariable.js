@@ -1,4 +1,5 @@
-// gloVariable.js
+//gloVariable.js
+//  Stores current voice ID and status globally.
 
 let VOICE_ID = "ZF6FPAbjXT4488VcRRnw";
 let currentStatus = "---";

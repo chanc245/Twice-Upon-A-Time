@@ -1,6 +1,6 @@
-//audio.js -> for audio related functions
-//list of funtions:
-//playAudio, combineAudioFiles, cleanupAudioFolder
+//audio.js
+//  Plays/saves/combines audio files.
+//  export funtions: playAudio, combineAudioFiles, cleanupAudioFolder
 
 import fs from "fs";
 import { Writer } from "wav";

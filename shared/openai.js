@@ -1,6 +1,6 @@
-//openai.js -> for functions that use openai API
-//list of funtions:
-//transcribeAudio, getOpenAIResponse,
+//openai.js
+//  Transcription + GPT logic.
+//  export functions: transcribeAudio, getOpenAIResponse,
 
 import { OpenAI } from "openai";
 import { ChatOpenAI } from "@langchain/openai";

@@ -1,6 +1,6 @@
-//mic.js -> for functions that use mic (recordings)
-//list of funtions:
-//startRecordingProcess, stopRecordingProcess, getAudioChunks
+//mic.js
+//  Handles mic input and chunk streaming.
+//  export functions: startRecordingProcess, stopRecordingProcess, getAudioChunks
 
 import mic from "mic";
 import { Writable } from "stream";

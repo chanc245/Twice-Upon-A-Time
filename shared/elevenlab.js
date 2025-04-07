@@ -1,6 +1,6 @@
-//elevenlab.js -> for functions that use elevenlab API
-//list of funtions:
-//convertTextToSpeech, cloneUserVoice, deleteOldVoice
+//elevenlab.js
+//  Text-to-speech and voice cloning via ElevenLabs API.
+//  export functions: convertTextToSpeech, cloneUserVoice, deleteOldVoice
 
 import { ElevenLabsClient } from "elevenlabs";
 import fs from "fs";
