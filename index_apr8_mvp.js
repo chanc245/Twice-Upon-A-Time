@@ -20,7 +20,7 @@ let otherKeepFiles = ["user_filelist.txt"];
 let transcriptionArchives = [];
 let gptResponseArchives = [];
 
-const userAudioFilesCombineNum = 1;
+const userAudioFilesCombineNum = 2;
 let VOICE_ID = "ZF6FPAbjXT4488VcRRnw";
 let voiceIDList = [];
 let voiceIDDeleteList = [];

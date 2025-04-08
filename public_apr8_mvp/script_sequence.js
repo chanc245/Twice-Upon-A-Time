@@ -1,4 +1,4 @@
-const stg0_sequence = [
+export const stg0_sequence = [
   // { audio: "stg0_intro_1.mp3", text: `Welcome to Once Upon A Tale, traveler.` },
   // {
   //   audio: "stg0_intro_2.mp3",
@@ -32,5 +32,32 @@ const stg0_sequence = [
   {
     audio: "stg0_intro_6.mp3",
     text: `Wonderful. Now that you know how to interact… \nlet the tale begin.`,
+  },
+];
+
+export const stg1_sequence = [
+  {
+    audio: "stg1_1.mp3",
+    text: `Once upon a thesis show time, when the weather was pleasant outside, a traveler wandered to the corner of a room.`,
+  },
+  // {
+  //   audio: "stg1_2.mp3",
+  //   text: `During their exploration, they discovered a curious-looking treasure chest with a golden key lying beside it.`,
+  // },
+  // {
+  //   audio: "stg1_3.mp3",
+  //   text: `At the front of the chest, on the right side, there was a lock hanging in place; on the left, a large keyhole almost seemed to invite them to peek inside—and the traveler couldn’t resist.`,
+  // },
+  // {
+  //   audio: "stg1_4.mp3",
+  //   text: `They were immediately surprised by the wonderful things within and couldn’t wait to open it!`,
+  // },
+  // {
+  //   audio: "stg1_5.mp3",
+  //   text: `They picked up the key and tried it in the lock. It fit perfectly.`,
+  // },
+  {
+    audio: "stg1_6.mp3",
+    text: `Then they turned it once around, and now we must wait until they have fully unlocked it and lifted the lid—only then shall we learn what wonderful things lie within that chest.`,
   },
 ];

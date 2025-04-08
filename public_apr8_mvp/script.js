@@ -1,3 +1,15 @@
+import { stg0_sequence, stg1_sequence } from "./script_sequence.js";
+
+const sequence0 = {
+  basePath: "./assets/stg0/",
+  steps: stg0_sequence,
+};
+
+const sequence1 = {
+  basePath: "./assets/stg1/",
+  steps: stg1_sequence,
+};
+
 const displayText = document.getElementById("displayText");
 const promptText = document.getElementById("promptText");
 const statusText = document.getElementById("statusText");
@@ -5,15 +17,14 @@ const statusText = document.getElementById("statusText");
 let isKeyPressed = false;
 
 // Play audio and display text
-async function playScene({ audio, text }) {
+async function playScene({ audio, text }, basePath) {
   const formattedText = (text || "").replace(/\n/g, "<br>");
   displayText.innerHTML = formattedText;
   promptText.textContent = "";
   statusText.textContent = "Playing audio...";
 
-  const AUDIO_BASE_PATH = "./assets/stg0/";
-  const audioPath = `${AUDIO_BASE_PATH}${audio}`;
-  console.log(audioPath);
+  const audioPath = `${basePath}${audio}`;
+  console.log("▶️ Playing:", audioPath);
   const audioElement = new Audio(audioPath);
 
   return new Promise((resolve) => {
@@ -22,7 +33,7 @@ async function playScene({ audio, text }) {
       resolve();
     };
     audioElement.onerror = () => {
-      console.error(`Failed to load audio: ${audioPath}`);
+      console.error(`❌ Failed to load audio: ${audioPath}`);
       statusText.textContent = "(Audio failed)";
       resolve();
     };
@@ -32,11 +43,9 @@ async function playScene({ audio, text }) {
 
 // Voice interaction step
 async function handleInteraction(prompt, text) {
-  // Show the scene's visible text (not the prompt)
   const formattedText = (text || "").replace(/\n/g, "<br>");
   displayText.innerHTML = formattedText;
 
-  // Don't show the AI prompt to the user
   promptText.textContent = "";
   statusText.textContent = "Hold [.] to speak";
 
@@ -92,9 +101,8 @@ async function handleInteraction(prompt, text) {
   });
 }
 
-// Run through entire sequence
-async function runSequence() {
-  for (const [index, step] of stg0_sequence.entries()) {
+async function runSequence({ steps, basePath }) {
+  for (const [index, step] of steps.entries()) {
     console.log(`🌀 Step ${index}:`, step);
 
     if (step.interaction) {
@@ -102,13 +110,18 @@ async function runSequence() {
       await handleInteraction(step.prompt, step.text);
     } else {
       console.log("🎧 Playing scene:", step.audio);
-      await playScene(step);
+      await playScene(step, basePath);
     }
   }
 
-  displayText.textContent = "Using the key beside, now open the chest!";
+  displayText.textContent = "Now Please ";
   promptText.textContent = "";
   statusText.textContent = "";
 }
 
-runSequence();
+async function startStory() {
+  await runSequence(sequence0);
+  await runSequence(sequence1);
+}
+
+startStory();
