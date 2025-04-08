@@ -130,7 +130,7 @@ async function runSequence({ steps, basePath }) {
 
 async function startStory() {
   await runSequence(sequence0);
-  await runSequence(sequence1);
+  // await runSequence(sequence1);
   await runSequence(sequence2);
 }
 

@@ -29,10 +29,8 @@ let transcriptionArchives = [];
 app.use(cors());
 app.use(express.json());
 app.use(express.static(join(__dirname, "../public_apr8_mvp")));
-app.use(
-  "/assets",
-  express.static(join(__dirname, "../public_apr8_mvp/assets"))
-);
+app.use("/assets", express.static(join(__dirname, "../public_apr8_mvp/assets")));
+app.use("/audio", express.static(join(__dirname, "../audio")));
 
 app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "../public_apr8_mvp/index.html"));
@@ -44,6 +42,11 @@ export const startServer = (
   getCurrentStatus,
   getTranscriptionArchives
 ) => {
+  // Update transcriptionArchives whenever we get new transcriptions
+  setInterval(() => {
+    transcriptionArchives = getTranscriptionArchives();
+  }, 1000); // Check every second for new transcriptions
+
   app.post("/start-recording", (req, res) => {
     startRecording();
     res.sendStatus(200);
@@ -51,26 +54,29 @@ export const startServer = (
 
   app.post("/stop-recording", async (req, res) => {
     stopRecording();
-
+    
     const prompt = req.body?.prompt || "You are a helpful guide.";
-    const defaultVoiceId = "ZF6FPAbjXT4488VcRRnw"; //Amelia
 
     try {
-      const transcription = await handleRecording();
+      // Wait for a short time to allow transcription to complete
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Update transcriptionArchives and get latest transcription
+      transcriptionArchives = getTranscriptionArchives();
+      const transcription = transcriptionArchives[transcriptionArchives.length - 1];
+
+      if (!transcription) {
+        throw new Error("No transcription available");
+      }
 
       console.log("📥 Prompt from frontend:", prompt);
       console.log("🗣️ Latest transcription:", transcription);
 
       const fullPrompt = `${prompt}\nUser said: ${transcription}`;
+      console.log("🔍 fullPrompt:", fullPrompt);
       const responseText = await getGptResultAsString(fullPrompt);
 
-      const audioFileName = await convertTextToSpeech(
-        responseText,
-        defaultVoiceId
-      );
-      const audioFilePath = path.join(audioFolderPath, audioFileName);
-
-      res.json({ responseText, audioFilePath: `/audio/${audioFileName}` });
+      res.json({ responseText });
     } catch (error) {
       console.error("❌ Error in /stop-recording:", error);
       res.status(500).json({ error: "Failed to process voice interaction." });
@@ -106,8 +112,6 @@ export const startServer = (
     try {
       const audioFileName = await convertTextToSpeech(text, voiceId);
       const audioFilePath = path.join(audioFolderPath, audioFileName);
-
-      await playAudio(audioFolderPath, audioFileName);
 
       res.json({ audioFilePath });
     } catch (error) {

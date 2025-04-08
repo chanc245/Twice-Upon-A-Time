@@ -20,7 +20,7 @@ let otherKeepFiles = ["user_filelist.txt"];
 let transcriptionArchives = [];
 let gptResponseArchives = [];
 
-const userAudioFilesCombineNum = 2;
+const userAudioFilesCombineNum = 10;
 let VOICE_ID = "ZF6FPAbjXT4488VcRRnw";
 let voiceIDList = [];
 let voiceIDDeleteList = [];
@@ -74,6 +74,8 @@ const handleVoiceCloning = async (transcription) => {
             userCloneNum += 1;
             voiceIDList.push(newVoiceID);
           });
+
+        await cloneVoicePromise;
 
         console.log("--Cloning completed.");
         glo.setCurrentStatus("Cloning completed...");
