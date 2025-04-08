@@ -61,3 +61,98 @@ export const stg1_sequence = [
     text: `Then they turned it once around, and now we must wait until they have fully unlocked it and lifted the lid—only then shall we learn what wonderful things lie within that chest.`,
   },
 ];
+
+export const stg2_sequence = [
+  {
+    audio: "stg2_v3_1.mp3",
+    text: `Once upon a time, a cheerful puppeteer traveled far and wide, enchanting audiences with a puppet show carried inside their chest of wonders.`,
+  },
+  {
+    audio: "stg2_v3_2.mp3",
+    text: `One evening, during a lively performance, they met a mysterious scholar who shared their love for theater and science.`,
+  },
+  {
+    audio: "stg2_v3_3.mp3",
+    text: `Over drinks, the scholar asked if the puppeteer would be truly happy if the puppets became real.`,
+  },
+  {
+    audio: "stg2_v3_4.mp3",
+    text: `With a laugh and a clink of glasses, magic filled the air—the puppets came to life, and the puppeteer became their director.`,
+  },
+  {
+    audio: "stg2_v3_5.mp3",
+    text: `At first, the puppeteer thought they could simply sit back and watch the magic unfold.`,
+  },
+  {
+    audio: "stg2_v3_6.mp3",
+    text: `However, it soon became clear that their puppets-turned-actors were less interested in performing and far more captivated by the wonders of the world around them.`,
+  },
+  {
+    audio: "stg2_v3_7.mp3",
+    text: `Determined to better understand their actors, the puppeteer decided to speak with each one individually.`,
+  },
+  {
+    audio: "stg2_v3_8.mp3",
+    text: `First, they found the Curious Ballerina backstage, lost in thoughtful daydreams.`,
+  },
+  {
+    audio: "stg2_v3_9.mp3",
+    text: `As the puppeteer approached, she asked softly, “I’ve always wondered, is there more beyond the curtains—can I peek just a little?”`,
+  },
+  {
+    audio: "stg2_v3_10.mp3",
+    text: `After speaking with the Ballerina, the puppeteer came across the Masked Acrobat, who was carefully examining their collection of masks.`,
+  },
+  {
+    audio: "stg2_v3_11.mp3",
+    text: `The Acrobat asked with uncertainty “I’ve always chosen my masks based on what makes others happy—what if I pick a mask just because it makes me smile?”`,
+  },
+  {
+    audio: "stg2_v3_12.mp3",
+    text: `Next, the enthusiastic Magician approached, brimming with excitement yet also confusion.“I have so many dreams and ideas—how do I know which one to follow first?” they wondered aloud.`,
+  },
+  {
+    audio: "stg2_v3_13.mp3",
+    text: `As the Magician wandered away in contemplation, the puppeteer noticed the Traveler by the doorway, maps and backpack in hand.`,
+  },
+  {
+    audio: "stg2_v3_14.mp3",
+    text: `With bright eyes full of curiosity, the Traveler asked, “What’s the best thing to do if the road ahead looks exciting, but I’m not sure where it leads?”`,
+  },
+  {
+    audio: "stg2_v3_15.mp3",
+    text: `Finally, near a dressing mirror stood the Apprentice, carefully inspecting their partly finished costume.`,
+  },
+  {
+    audio: "stg2_v3_16.mp3",
+    text: `Seeing the puppeteer approach, the Apprentice voiced their uncertainty, “If my outfit still has a few loose stitches, is it alright to step onto the stage confidently anyway?”`,
+  },
+  {
+    audio: "stg2_v3_17.mp3",
+    text: `Having spoken with all the actors, the puppeteer returned to the familiar chest where the puppets had rested before coming alive.`,
+  },
+  {
+    audio: "stg2_v3_18.mp3",
+    text: `Feeling both exhausted and fulfilled, they sat down beside the chest and drifted into a peaceful sleep.`,
+  },
+  {
+    audio: "stg2_v3_19.mp3",
+    text: `In the puppeteer’s dream, they heard their own voice gently summarizing the conversations shared with each puppet:`,
+  },
+  {
+    audio: "stg2_v3_20.mp3",
+    text: `As their voice softly faded away, each puppet smiled warmly, knowing well the wisdom that had passed between them.`,
+  },
+  {
+    audio: "stg2_v3_21.mp3",
+    text: `As the puppeteer awoke, warm sunlight gently touched each puppet resting within the chest—each unique, each cherished.`,
+  },
+  {
+    audio: "stg2_v3_22.mp3",
+    text: `With a gentle smile, the puppeteer closed the chest without locking it, quietly recognizing how each conversation had woven curiosity and courage into their life’s tapestry.`,
+  },
+  {
+    audio: "stg2_v3_23.mp3",
+    text: `With renewed spirit, they stepped forward into the day, guided by the gentle lessons learned from their magical companions.`,
+  },
+];

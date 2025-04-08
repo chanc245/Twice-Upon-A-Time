@@ -1,4 +1,8 @@
-import { stg0_sequence, stg1_sequence } from "./script_sequence.js";
+import {
+  stg0_sequence,
+  stg1_sequence,
+  stg2_sequence,
+} from "./script_sequence.js";
 
 const sequence0 = {
   basePath: "./assets/stg0/",
@@ -8,6 +12,11 @@ const sequence0 = {
 const sequence1 = {
   basePath: "./assets/stg1/",
   steps: stg1_sequence,
+};
+
+const sequence2 = {
+  basePath: "./assets/stg2/",
+  steps: stg2_sequence,
 };
 
 const displayText = document.getElementById("displayText");
@@ -114,7 +123,7 @@ async function runSequence({ steps, basePath }) {
     }
   }
 
-  displayText.textContent = "Now Please ";
+  displayText.textContent = "THE END c:";
   promptText.textContent = "";
   statusText.textContent = "";
 }
@@ -122,6 +131,7 @@ async function runSequence({ steps, basePath }) {
 async function startStory() {
   await runSequence(sequence0);
   await runSequence(sequence1);
+  await runSequence(sequence2);
 }
 
 startStory();
