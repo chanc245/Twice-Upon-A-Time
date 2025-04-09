@@ -123,14 +123,14 @@ async function runSequence({ steps, basePath }) {
     }
   }
 
-  displayText.textContent = "THE END c:";
+  displayText.textContent = "THE END (for now)";
   promptText.textContent = "";
   statusText.textContent = "";
 }
 
 async function startStory() {
   await runSequence(sequence0);
-  // await runSequence(sequence1);
+  await runSequence(sequence1);
   await runSequence(sequence2);
 }
 
