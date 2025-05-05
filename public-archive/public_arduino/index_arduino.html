@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stroy display</title>
+    <title>Story Display</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre&display=swap"
       rel="stylesheet"
@@ -25,11 +25,65 @@
       }
     </style>
   </head>
+
   <body>
     <p>
       The chest had a large keyhole, and the traveler couldn’t help but peek
       inside. They were immediately surprised by the wonderful things within and
       couldn’t wait to open it!
     </p>
+
+    <script>
+      window.onload = function () {
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "z") {
+            fetch("displaySwitch", { method: "GET" });
+            console.log("displaySwitch");
+          }
+          // ACT SWITCH
+          if (event.key === "1") {
+            fetch("act1Switch", { method: "GET" });
+            console.log("act1Switch");
+          }
+          if (event.key === "2") {
+            fetch("act2Switch", { method: "GET" });
+            console.log("act2Switch");
+          }
+          if (event.key === "3") {
+            fetch("act3Switch", { method: "GET" });
+            console.log("act3Switch");
+          }
+          if (event.key === "4") {
+            fetch("act4Switch", { method: "GET" });
+            console.log("act4Switch");
+          }
+          //CHARACTER SWITCH
+          if (event.key === "q") {
+            fetch("char1Swch", { method: "GET" });
+            console.log("char1Swch");
+          }
+          if (event.key === "w") {
+            fetch("char2Swch", { method: "GET" });
+            console.log("char2Swch");
+          }
+          if (event.key === "e") {
+            fetch("char3Swch", { method: "GET" });
+            console.log("char3Swch");
+          }
+          if (event.key === "r") {
+            fetch("char4Swch", { method: "GET" });
+            console.log("char4Swch");
+          }
+          if (event.key === "t") {
+            fetch("char5Swch", { method: "GET" });
+            console.log("char5Swch");
+          }
+          if (event.key === "x") {
+            fetch("allFalse", { method: "GET" });
+            console.log("allFalse");
+          }
+        });
+      };
+    </script>
   </body>
 </html>

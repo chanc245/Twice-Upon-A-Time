@@ -3,7 +3,7 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import http from "http";
-import { WebSocketServer } from "ws";
+import { WebSocketServer, WebSocket } from "ws";
 
 // Express setup
 const app = express();
@@ -20,12 +20,61 @@ app.get("/", (req, res) => {
   );
 });
 
-app.get("/light/on", (req, res) => {
-  sendMsgToArduino("1");
+app.get("/displaySwitch", (req, res) => {
+  sendMsgToArduino("displaySwitch");
+  res.send("OK");
 });
 
-app.get("/light/off", (req, res) => {
-  sendMsgToArduino("2");
+// ACT SWITCH
+app.get("/act1Switch", (req, res) => {
+  sendMsgToArduino("act1Switch");
+  res.send("OK");
+});
+
+app.get("/act2Switch", (req, res) => {
+  sendMsgToArduino("act2Switch");
+  res.send("OK");
+});
+
+app.get("/act3Switch", (req, res) => {
+  sendMsgToArduino("act3Switch");
+  res.send("OK");
+});
+
+app.get("/act4Switch", (req, res) => {
+  sendMsgToArduino("act4Switch");
+  res.send("OK");
+});
+
+// CHAR SWITCH
+app.get("/char1Swch", (req, res) => {
+  sendMsgToArduino("char1Swch");
+  res.send("OK");
+});
+
+app.get("/char2Swch", (req, res) => {
+  sendMsgToArduino("char2Swch");
+  res.send("OK");
+});
+
+app.get("/char3Swch", (req, res) => {
+  sendMsgToArduino("char3Swch");
+  res.send("OK");
+});
+
+app.get("/char4Swch", (req, res) => {
+  sendMsgToArduino("char4Swch");
+  res.send("OK");
+});
+
+app.get("/char5Swch", (req, res) => {
+  sendMsgToArduino("char5Swch");
+  res.send("OK");
+});
+
+app.get("/allFalse", (req, res) => {
+  sendMsgToArduino("allFalse");
+  res.send("OK");
 });
 
 // Create HTTP server and WebSocket server
@@ -55,7 +104,7 @@ wss.on("connection", (ws) => {
 // Global function to send messages to all connected Arduino clients
 function sendMsgToArduino(message) {
   clients.forEach((client) => {
-    if (client.readyState === client.OPEN) {
+    if (client.readyState === WebSocket.OPEN) {
       client.send(message);
       console.log(`Sent to Arduino: ${message}`);
     }
