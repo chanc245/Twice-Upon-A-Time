@@ -14,7 +14,7 @@ import {
 } from "./gloVariable.js";
 import { convertTextToSpeech } from "./elevenlab.js";
 import { playAudio } from "./audio.js";
-import { handleRecording } from "../index_apr8_mvp.js";
+import { handleRecording } from "../index_may6.js";
 import path from "path";
 
 const audioFolderPath = "./audio";
@@ -28,12 +28,12 @@ let transcriptionArchives = [];
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(join(__dirname, "../public_apr8_mvp")));
-app.use("/assets", express.static(join(__dirname, "../public_apr8_mvp/assets")));
+app.use(express.static(join(__dirname, "../public_may6")));
+app.use("/assets", express.static(join(__dirname, "../public_may6/assets")));
 app.use("/audio", express.static(join(__dirname, "../audio")));
 
 app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "../public_apr8_mvp/index.html"));
+  res.sendFile(join(__dirname, "../public_may6/index.html"));
 });
 
 export const startServer = (
@@ -54,16 +54,17 @@ export const startServer = (
 
   app.post("/stop-recording", async (req, res) => {
     stopRecording();
-    
+
     const prompt = req.body?.prompt || "You are a helpful guide.";
 
     try {
       // Wait for a short time to allow transcription to complete
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       // Update transcriptionArchives and get latest transcription
       transcriptionArchives = getTranscriptionArchives();
-      const transcription = transcriptionArchives[transcriptionArchives.length - 1];
+      const transcription =
+        transcriptionArchives[transcriptionArchives.length - 1];
 
       if (!transcription) {
         throw new Error("No transcription available");
