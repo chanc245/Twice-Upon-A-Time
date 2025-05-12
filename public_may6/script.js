@@ -5,6 +5,7 @@ import {
   stgEnd_sequence,
   stgMid_sequence,
   stgMidDone_sequence,
+  stgStart_sequence,
 } from "./script_sequence.js";
 
 const displayText = document.getElementById("story-text");
@@ -68,12 +69,24 @@ function initWebSocket() {
 // Function to send sequence step to server
 function sendSequenceStep(step) {
   if (ws && ws.readyState === WebSocket.OPEN) {
+    // Send the full step data
     ws.send(
       JSON.stringify({
         type: "sequence_step",
         step: step,
       })
     );
+
+    // If there's an Arduino command, send it separately
+    if (step.arduino) {
+      console.log("Sending Arduino command:", step.arduino);
+      ws.send(
+        JSON.stringify({
+          type: "arduino_command",
+          command: step.arduino
+        })
+      );
+    }
   }
 }
 
@@ -90,15 +103,26 @@ async function playScene({ audio, text }, basePath) {
 
   return new Promise((resolve) => {
     audioElement.onended = () => {
+      console.log("✅ Audio finished playing:", audioPath);
       statusText.textContent = "";
       resolve();
     };
-    audioElement.onerror = () => {
-      console.error(`❌ Failed to load audio: ${audioPath}`);
+    audioElement.onerror = (error) => {
+      console.error(`❌ Failed to load audio: ${audioPath}`, error);
       statusText.textContent = "(Audio failed)";
       resolve();
     };
-    audioElement.play();
+    audioElement.oncanplaythrough = () => {
+      console.log("🎵 Audio can play through:", audioPath);
+    };
+    audioElement.onloadstart = () => {
+      console.log("📥 Starting to load audio:", audioPath);
+    };
+    audioElement.play().catch(error => {
+      console.error("❌ Error playing audio:", error);
+      statusText.textContent = "(Audio failed to play)";
+      resolve();
+    });
   });
 }
 
@@ -225,6 +249,11 @@ async function startStory() {
     statusText.textContent = "Connected! Starting story...";
 
     // Define sequences with their base paths
+    const sequenceStart = {
+      basePath: "./assets/stgStart/",
+      steps: stgStart_sequence,
+    };
+
     const sequence0 = {
       basePath: "./assets/stg0/",
       steps: stg0_sequence,
@@ -255,29 +284,48 @@ async function startStory() {
       steps: stgEnd_sequence,
     };
 
-    // Run sequences in order
+    // // Run sequences in order
+
+    // // Starting sequence - Intro music and text
+    // await runSequence(sequenceStart);
+    // statusText.textContent = "Please press [The Golden Key] to start your journey...";
+    // await new Promise((resolve) => {
+    //   const onKeyDown = (e) => {
+    //     if (e.code === "Period") {
+    //       console.log("Key pressed, continuing with story...");
+    //       document.removeEventListener("keydown", onKeyDown);
+    //       resolve();
+    //     }
+    //   };
+    //   document.addEventListener("keydown", onKeyDown);
+    // });
+
+    // // Stage 0 - Welcome and introduction
     // await runSequence(sequence0);
     // await runSequence(sequence1);
-    await runSequence(sequenceMid);
+    // await runSequence(sequenceMid);
 
-    // Wait for key press to continue
-    console.log("Press [.] to continue...");
-    statusText.textContent = "Press [The Golden Key] to continue your journey...";
+    // // Wait for key press to continue
+    // console.log("Press [.] to continue...");
+    // statusText.textContent = "Press [The Golden Key] to continue your journey...";
     
-    await new Promise((resolve) => {
-      const onKeyDown = (e) => {
-        if (e.code === "Period") {
-          console.log("Key pressed, continuing with story...");
-          document.removeEventListener("keydown", onKeyDown);
-          resolve();
-        }
-      };
-      document.addEventListener("keydown", onKeyDown);
-    });
+    // await new Promise((resolve) => {
+    //   const onKeyDown = (e) => {
+    //     if (e.code === "Period") {
+    //       console.log("Key pressed, continuing with story...");
+    //       document.removeEventListener("keydown", onKeyDown);
+    //       resolve();
+    //     }
+    //   };
+    //   document.addEventListener("keydown", onKeyDown);
+    // });
 
-    await runSequence(sequenceMidDone);
+    // await runSequence(sequenceMidDone);
     await runSequence(sequence2);
-    // await runSequence(sequenceEnd);
+    await runSequence(sequenceEnd);
+
+    displayText.textContent = "THE END!";
+    statusText.textContent = "Thank you for joining the story, traveler!";
   } catch (error) {
     console.error("Failed to start story:", error);
     statusText.textContent =

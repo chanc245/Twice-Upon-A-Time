@@ -282,16 +282,22 @@ wss.on("connection", (ws) => {
 ws.on('message', function(data) {
   // Convert the buffer to a string
   const message = data.toString('utf8');
-  console.log('Raw message received from Arduino:', message);
+  // console.log('Raw message received:', message);
   
   try {
     const jsonData = JSON.parse(message);
-    console.log('Parsed JSON data:', jsonData);
+    // console.log('Parsed JSON data:', jsonData);
     
-    // Access the displaySwitch value
+    // Handle Arduino commands
+    if (jsonData.type === "arduino_command") {
+      console.log('Sending Arduino command:', jsonData.command);
+      sendMsgToArduino(jsonData.command);
+      return;
+    }
+    
+    // Handle display switch
     if (jsonData.displaySwitch === true) {
       console.log('Display switch is ON, sending to client...');
-      // Send a message to the client
       const clientMessage = JSON.stringify({ type: "displaySwitch", status: true });
       console.log('Sending to client:', clientMessage);
       ws.send(clientMessage);
