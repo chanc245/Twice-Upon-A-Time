@@ -6,36 +6,58 @@ import {
   stgMid_sequence,
 } from "./script_sequence.js";
 
-const sequence0 = {
-  basePath: "./assets/stg0/",
-  steps: stg0_sequence,
-};
-
-const sequence1 = {
-  basePath: "./assets/stg1/",
-  steps: stg1_sequence,
-};
-
-const sequenceMid = {
-  basePath: "./assets/stgMid/",
-  steps: stgMid_sequence,
-};
-
-const sequence2 = {
-  basePath: "./assets/stg2/",
-  steps: stg2_sequence,
-};
-
-const sequenceEnd = {
-  basePath: "./assets/stgEnd/",
-  steps: stgEnd_sequence,
-};
-
-const displayText = document.getElementById("displayText");
-const promptText = document.getElementById("promptText");
-const statusText = document.getElementById("statusText");
+const displayText = document.getElementById("story-text");
+const promptText = document.getElementById("prompt-text");
+const statusText = document.getElementById("status-text");
 
 let isKeyPressed = false;
+let ws = null;
+let serverReady = false;
+
+// Initialize WebSocket connection
+function initWebSocket() {
+  return new Promise((resolve, reject) => {
+    ws = new WebSocket(`ws://${window.location.host}`);
+    
+    ws.onopen = () => {
+      console.log('WebSocket connection established');
+      statusText.textContent = "Waiting for server...";
+    };
+    
+    ws.onmessage = (event) => {
+      console.log('Received message:', event.data);
+      if (event.data === "ready") {
+        serverReady = true;
+        resolve();
+      }
+    };
+    
+    ws.onclose = () => {
+      console.log('WebSocket connection closed');
+      serverReady = false;
+      // Attempt to reconnect after a delay
+      setTimeout(() => {
+        console.log('Attempting to reconnect...');
+        initWebSocket();
+      }, 5000);
+    };
+    
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+      reject(error);
+    };
+  });
+}
+
+// Function to send sequence step to server
+function sendSequenceStep(step) {
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({
+      type: 'sequence_step',
+      step: step
+    }));
+  }
+}
 
 // Play audio and display text
 async function playScene({ audio, text }, basePath) {
@@ -68,7 +90,7 @@ async function handleInteraction(prompt, text) {
   displayText.innerHTML = formattedText;
 
   promptText.textContent = "";
-  statusText.textContent = "Hold [.] to speak";
+  statusText.textContent = "Hold [the Golden Key] to speak";
 
   return new Promise((resolve) => {
     const onKeyDown = (e) => {
@@ -122,31 +144,78 @@ async function handleInteraction(prompt, text) {
   });
 }
 
+// Function to process a single step
+async function processStep(step, basePath) {
+  try {
+    // Send step to server first
+    sendSequenceStep(step);
+    
+    // Handle interaction
+    if (step.interaction) {
+      await handleInteraction(step.prompt, step.text);
+    } else {
+      // Handle regular scene (audio + text)
+      await playScene(step, basePath);
+    }
+  } catch (error) {
+    console.error('Error processing step:', error);
+  }
+}
+
+// Function to run a sequence
 async function runSequence({ steps, basePath }) {
   for (const [index, step] of steps.entries()) {
     console.log(`------------------------`);
     console.log(`🌀 Step ${index}:`, step);
-
-    if (step.interaction) {
-      console.log("👉 Interaction step");
-      await handleInteraction(step.prompt, step.text);
-    } else {
-      console.log("🎧 Playing scene:", step.audio);
-      await playScene(step, basePath);
-    }
+    await processStep(step, basePath);
   }
-
-  displayText.textContent = "THE END C:";
-  promptText.textContent = "";
-  statusText.textContent = "";
 }
 
+// Initialize the experience
 async function startStory() {
-  await runSequence(sequence0);
-  await runSequence(sequence1);
-  // await runSequence(sequenceMid);
-  await runSequence(sequence2);
-  // await runSequence(sequenceEnd);
+  try {
+    // Wait for WebSocket connection and server ready
+    statusText.textContent = "Connecting to server...";
+    await initWebSocket();
+    statusText.textContent = "Connected! Starting story...";
+
+    // Define sequences with their base paths
+    const sequence0 = {
+      basePath: "./assets/stg0/",
+      steps: stg0_sequence,
+    };
+
+    const sequence1 = {
+      basePath: "./assets/stg1/",
+      steps: stg1_sequence,
+    };
+
+    const sequenceMid = {
+      basePath: "./assets/stgMid/",
+      steps: stgMid_sequence,
+    };
+
+    const sequence2 = {
+      basePath: "./assets/stg2/",
+      steps: stg2_sequence,
+    };
+
+    const sequenceEnd = {
+      basePath: "./assets/stgEnd/",
+      steps: stgEnd_sequence,
+    };
+
+    // Run sequences in order
+    await runSequence(sequence0);
+    await runSequence(sequence1);
+    // await runSequence(sequenceMid);
+    // await runSequence(sequence2);
+    // await runSequence(sequenceEnd);
+  } catch (error) {
+    console.error('Failed to start story:', error);
+    statusText.textContent = "Failed to connect to server. Please refresh the page.";
+  }
 }
 
-startStory();
+// Start when the page loads
+window.addEventListener('load', startStory);

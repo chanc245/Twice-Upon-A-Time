@@ -8,15 +8,67 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <title>Apr 9 MVP</title>
+    <title>Twice Upon A Time</title>
   </head>
   <body>
     <div id="content">
-      <p id="displayText">Loading story...</p>
-      <p id="promptText" class="small"></p>
-      <p id="statusText" class="small"></p>
+      <p id="story-text">Loading story...</p>
+      <p id="prompt-text" class="small"></p>
+      <p id="status-text" class="small"></p>
     </div>
 
     <script type="module" src="script.js"></script>
+    <script>
+      window.onload = function () {
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "z") {
+            fetch("displaySwitch", { method: "GET" });
+            console.log("displaySwitch");
+          }
+          // ACT SWITCH
+          if (event.key === "1") {
+            fetch("act1Switch", { method: "GET" });
+            console.log("act1Switch");
+          }
+          if (event.key === "2") {
+            fetch("act2Switch", { method: "GET" });
+            console.log("act2Switch");
+          }
+          if (event.key === "3") {
+            fetch("act3Switch", { method: "GET" });
+            console.log("act3Switch");
+          }
+          if (event.key === "4") {
+            fetch("act4Switch", { method: "GET" });
+            console.log("act4Switch");
+          }
+          //CHARACTER SWITCH
+          if (event.key === "q") {
+            fetch("char1Swch", { method: "GET" });
+            console.log("char1Swch");
+          }
+          if (event.key === "w") {
+            fetch("char2Swch", { method: "GET" });
+            console.log("char2Swch");
+          }
+          if (event.key === "e") {
+            fetch("char3Swch", { method: "GET" });
+            console.log("char3Swch");
+          }
+          if (event.key === "r") {
+            fetch("char4Swch", { method: "GET" });
+            console.log("char4Swch");
+          }
+          if (event.key === "t") {
+            fetch("char5Swch", { method: "GET" });
+            console.log("char5Swch");
+          }
+          if (event.key === "x") {
+            fetch("allFalse", { method: "GET" });
+            console.log("allFalse");
+          }
+        });
+      };
+    </script>
   </body>
 </html>
