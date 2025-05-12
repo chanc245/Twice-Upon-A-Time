@@ -279,6 +279,11 @@ async function startStory() {
       steps: stg2_sequence,
     };
 
+    const sequence2End = {
+      basePath: "./assets/stg2/",
+      steps: stg2End_sequence,
+    };
+
     const sequenceEnd = {
       basePath: "./assets/stgEnd/",
       steps: stgEnd_sequence,
@@ -322,6 +327,10 @@ async function startStory() {
 
     // await runSequence(sequenceMidDone);
     await runSequence(sequence2);
+
+    //ADD AI INTERACTION HERE!!!!
+
+    await runSequence(sequence2End);
     await runSequence(sequenceEnd);
 
     displayText.textContent = "THE END!";

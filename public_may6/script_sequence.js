@@ -160,7 +160,7 @@ export const stg2_sequence = [
   //   interaction: true,
   //   text: `The Acrobat asked with uncertainty “I’ve always chosen my masks based on what makes others happy—what if I pick a mask just because it makes me smile?”`,
   //   prompt: `Within a sentence, please respond as an careful acrobat to the user's response positively.`,
-  //   voiceId: "ZF6FPAbjXT4488VcRRnw" 
+  //   voiceId: "ZF6FPAbjXT4488VcRRnw"
   // },
   // {
   //   audio: "stg2_v3_12.mp3",
@@ -171,7 +171,7 @@ export const stg2_sequence = [
   //   interaction: true,
   //   text: `Next, the enthusiastic Pirates approached, brimming with excitement yet also confusion.“I have so many dreams and ideas—how do I know which one to follow first?” they wondered aloud.`,
   //   prompt: `Within a sentence, please respond as an brave pirate to the user's response positively.`,
-  //   voiceId: "Z3R5wn05IrDiVCyEkUrK" 
+  //   voiceId: "Z3R5wn05IrDiVCyEkUrK"
   // },
   // {
   //   audio: "stg2_v3_13.mp3",
@@ -187,7 +187,7 @@ export const stg2_sequence = [
   //   audio: "stg2_v3_14.mp3",
   //   text: `With bright eyes full of curiosity, the Traveler asked, “What’s the best thing to do if the road ahead looks exciting, but I’m not sure where it leads?”`,
   //   prompt: `Within a sentence, please respond as an exciting traveler to the user's response positively.`,
-  //   voiceId: "tnSpp4vdxKPjI9w0GnoV" 
+  //   voiceId: "tnSpp4vdxKPjI9w0GnoV"
   // },
   // {
   //   audio: "stg2_v3_15.mp3",
@@ -217,6 +217,10 @@ export const stg2_sequence = [
   //   audio: "stg2_v3_19.mp3",
   //   text: `In the puppeteer’s dream, they heard their own voice gently summarizing the conversations shared with each puppet:`,
   // },
+  //
+];
+
+export const stg2End_sequence = [
   // {
   //   audio: "stg2_v3_20.mp3",
   //   text: `As their voice softly faded away, each puppet smiled warmly, knowing well the wisdom that had passed between them.`,
