@@ -278,20 +278,28 @@ wss.on("connection", (ws) => {
   // Send ready message to the client
   ws.send("ready");
 
-  ws.on("message", async (message) => {
-    try {
-      const data = JSON.parse(message);
-      
-      // Handle sequence step
-      if (data.type === "sequence_step") {
-        await processSequenceStep(data.step);
-      }
-      
-      // Handle other message types...
-    } catch (error) {
-      console.error("Error handling WebSocket message:", error);
+// Assuming you're receiving the data in a WebSocket connection
+ws.on('message', function(data) {
+  // Convert the buffer to a string
+  const message = data.toString('utf8');
+  console.log('Raw message received from Arduino:', message);
+  
+  try {
+    const jsonData = JSON.parse(message);
+    console.log('Parsed JSON data:', jsonData);
+    
+    // Access the displaySwitch value
+    if (jsonData.displaySwitch === true) {
+      console.log('Display switch is ON, sending to client...');
+      // Send a message to the client
+      const clientMessage = JSON.stringify({ type: "displaySwitch", status: true });
+      console.log('Sending to client:', clientMessage);
+      ws.send(clientMessage);
     }
-  });
+  } catch (error) {
+    console.error('Error parsing JSON:', error);
+  }
+});
 
   ws.on("close", () => {
     console.log("Client disconnected");

@@ -4,6 +4,7 @@ import {
   stg2_sequence,
   stgEnd_sequence,
   stgMid_sequence,
+  stgMidDone_sequence,
 } from "./script_sequence.js";
 
 const displayText = document.getElementById("story-text");
@@ -13,37 +14,52 @@ const statusText = document.getElementById("status-text");
 let isKeyPressed = false;
 let ws = null;
 let serverReady = false;
+let displaySwitchReady = false;
 
 // Initialize WebSocket connection
 function initWebSocket() {
   return new Promise((resolve, reject) => {
     ws = new WebSocket(`ws://${window.location.host}`);
-    
+
     ws.onopen = () => {
-      console.log('WebSocket connection established');
+      console.log("WebSocket connection established");
       statusText.textContent = "Waiting for server...";
     };
-    
-    ws.onmessage = (event) => {
-      console.log('Received message:', event.data);
-      if (event.data === "ready") {
-        serverReady = true;
-        resolve();
+
+    ws.onmessage = async (event) => {
+      console.log("WebSocket message received:", event.data);
+      try {
+        const data = JSON.parse(event.data);
+        console.log("Parsed WebSocket data:", data);
+        
+        if (data.type === "ready") {
+          serverReady = true;
+          resolve();
+        } else if (data.type === "displaySwitch" && data.status === true) {
+          console.log("Display switch is ON!");
+          displaySwitchReady = true;
+        }
+      } catch (error) {
+        console.log("Non-JSON message received:", event.data);
+        if (event.data === "ready") {
+          serverReady = true;
+          resolve();
+        }
       }
     };
-    
+
     ws.onclose = () => {
-      console.log('WebSocket connection closed');
+      console.log("WebSocket connection closed");
       serverReady = false;
       // Attempt to reconnect after a delay
       setTimeout(() => {
-        console.log('Attempting to reconnect...');
+        console.log("Attempting to reconnect...");
         initWebSocket();
       }, 5000);
     };
-    
+
     ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
+      console.error("WebSocket error:", error);
       reject(error);
     };
   });
@@ -52,10 +68,12 @@ function initWebSocket() {
 // Function to send sequence step to server
 function sendSequenceStep(step) {
   if (ws && ws.readyState === WebSocket.OPEN) {
-    ws.send(JSON.stringify({
-      type: 'sequence_step',
-      step: step
-    }));
+    ws.send(
+      JSON.stringify({
+        type: "sequence_step",
+        step: step,
+      })
+    );
   }
 }
 
@@ -85,7 +103,7 @@ async function playScene({ audio, text }, basePath) {
 }
 
 // Voice interaction step
-async function handleInteraction(prompt, text) {
+async function handleInteraction(prompt, text, voiceId) {
   const formattedText = (text || "").replace(/\n/g, "<br>");
   displayText.innerHTML = formattedText;
 
@@ -106,36 +124,63 @@ async function handleInteraction(prompt, text) {
         isKeyPressed = false;
         statusText.textContent = "Processing...";
 
-        const res = await fetch("/stop-recording", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt }),
-        });
-        const data = await res.json();
-        const gptText = data.responseText;
+        try {
+          const res = await fetch("/stop-recording", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt }),
+          });
 
-        displayText.textContent = gptText;
-        statusText.textContent = "Speaking...";
+          if (!res.ok) {
+            const errorData = await res.json();
+            if (errorData.error === "No audio data recorded") {
+              statusText.textContent =
+                "No audio detected. Please hold [the Golden Key] and try again...";
+              return; // Don't resolve, allowing user to try again
+            }
+            throw new Error(
+              errorData.error || "Failed to process voice interaction"
+            );
+          }
 
-        const audioRes = await fetch("/text-to-speech", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: gptText }),
-        });
-        const { audioFilePath } = await audioRes.json();
+          const data = await res.json();
+          const gptText = data.responseText;
 
-        const audio = new Audio(audioFilePath);
-        audio.onended = () => {
-          statusText.textContent = "";
-          document.removeEventListener("keydown", onKeyDown);
-          document.removeEventListener("keyup", onKeyUp);
-          resolve();
-        };
-        audio.onerror = () => {
-          statusText.textContent = "(Failed to play AI response)";
-          resolve();
-        };
-        audio.play();
+          displayText.textContent = gptText;
+          statusText.textContent = "Speaking...";
+
+          const audioRes = await fetch("/text-to-speech", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              text: gptText,
+              voiceId: voiceId, // Pass the voiceId if provided
+            }),
+          });
+
+          if (!audioRes.ok) {
+            throw new Error("Failed to convert text to speech");
+          }
+
+          const { audioFilePath } = await audioRes.json();
+
+          const audio = new Audio(audioFilePath);
+          audio.onended = () => {
+            statusText.textContent = "";
+            document.removeEventListener("keydown", onKeyDown);
+            document.removeEventListener("keyup", onKeyUp);
+            resolve();
+          };
+          audio.onerror = () => {
+            statusText.textContent = "(Failed to play AI response)";
+            resolve();
+          };
+          audio.play();
+        } catch (error) {
+          console.error("Error in interaction:", error);
+          statusText.textContent =
+            "A little magic went astray. Please hold [The Golden Key] and try again…";
+        }
       }
     };
 
@@ -149,16 +194,16 @@ async function processStep(step, basePath) {
   try {
     // Send step to server first
     sendSequenceStep(step);
-    
+
     // Handle interaction
     if (step.interaction) {
-      await handleInteraction(step.prompt, step.text);
+      await handleInteraction(step.prompt, step.text, step.voiceId);
     } else {
       // Handle regular scene (audio + text)
       await playScene(step, basePath);
     }
   } catch (error) {
-    console.error('Error processing step:', error);
+    console.error("Error processing step:", error);
   }
 }
 
@@ -195,6 +240,11 @@ async function startStory() {
       steps: stgMid_sequence,
     };
 
+    const sequenceMidDone = {
+      basePath: "./assets/stgMidDone/",
+      steps: stgMidDone_sequence,
+    };
+
     const sequence2 = {
       basePath: "./assets/stg2/",
       steps: stg2_sequence,
@@ -206,16 +256,34 @@ async function startStory() {
     };
 
     // Run sequences in order
-    await runSequence(sequence0);
-    await runSequence(sequence1);
-    // await runSequence(sequenceMid);
-    // await runSequence(sequence2);
+    // await runSequence(sequence0);
+    // await runSequence(sequence1);
+    await runSequence(sequenceMid);
+
+    // Wait for key press to continue
+    console.log("Press [.] to continue...");
+    statusText.textContent = "Press [The Golden Key] to continue your journey...";
+    
+    await new Promise((resolve) => {
+      const onKeyDown = (e) => {
+        if (e.code === "Period") {
+          console.log("Key pressed, continuing with story...");
+          document.removeEventListener("keydown", onKeyDown);
+          resolve();
+        }
+      };
+      document.addEventListener("keydown", onKeyDown);
+    });
+
+    await runSequence(sequenceMidDone);
+    await runSequence(sequence2);
     // await runSequence(sequenceEnd);
   } catch (error) {
-    console.error('Failed to start story:', error);
-    statusText.textContent = "Failed to connect to server. Please refresh the page.";
+    console.error("Failed to start story:", error);
+    statusText.textContent =
+      "Failed to connect to server. Please refresh the page.";
   }
 }
 
 // Start when the page loads
-window.addEventListener('load', startStory);
+window.addEventListener("load", startStory);

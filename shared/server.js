@@ -67,7 +67,8 @@ export const startServer = (
         transcriptionArchives[transcriptionArchives.length - 1];
 
       if (!transcription) {
-        throw new Error("No transcription available");
+        res.status(400).json({ error: "No audio data recorded" });
+        return;
       }
 
       console.log("📥 Prompt from frontend:", prompt);
@@ -80,7 +81,11 @@ export const startServer = (
       res.json({ responseText });
     } catch (error) {
       console.error("❌ Error in /stop-recording:", error);
-      res.status(500).json({ error: "Failed to process voice interaction." });
+      if (error.message === "No audio data recorded") {
+        res.status(400).json({ error: "No audio data recorded" });
+      } else {
+        res.status(500).json({ error: "Failed to process voice interaction." });
+      }
     }
   });
 
@@ -108,16 +113,30 @@ export const startServer = (
   });
 
   app.post("/text-to-speech", async (req, res) => {
-    const { text, voiceId = getVoiceId() } = req.body;
+    const { text, voiceId } = req.body;
+
+    if (!text) {
+      res.status(400).json({ error: "No text provided for text-to-speech conversion" });
+      return;
+    }
 
     try {
-      const audioFileName = await convertTextToSpeech(text, voiceId);
+      // Use provided voiceId or fall back to default
+      const finalVoiceId = voiceId || getVoiceId();
+      if (!finalVoiceId) {
+        throw new Error("No voice ID available for text-to-speech conversion");
+      }
+
+      const audioFileName = await convertTextToSpeech(text, finalVoiceId);
       const audioFilePath = path.join(audioFolderPath, audioFileName);
 
       res.json({ audioFilePath });
     } catch (error) {
       console.error("Error in /text-to-speech endpoint:", error);
-      res.status(500).json({ error: "Text-to-speech conversion failed." });
+      res.status(500).json({ 
+        error: "Text-to-speech conversion failed",
+        details: error.message 
+      });
     }
   });
 

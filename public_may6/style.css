@@ -2,7 +2,7 @@
   --bg-color: lightgray;
   --box-border-color: rgb(169, 169, 169);
   --text-color: gray;
-  --text-secondary-color: #bcc429;
+  --text-secondary-color: #bfaa1e;
 }
 
 body {
@@ -40,7 +40,8 @@ p.small {
   color: var(--text-secondary-color);
   position: absolute;
   bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  margin: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  text-align: center;
 }

@@ -44,11 +44,11 @@ export const stg1_sequence = [
   //   audio: "stg1_2.mp3",
   //   text: `During their exploration, they discovered a curious-looking treasure chest with a golden key lying beside it.`,
   // },
-  {
-    audio: "stg1_3.mp3",
-    text: `At the front of the chest, on the right side, there was a lock hanging in place; on the left, a large keyhole almost seemed to invite them to peek inside—and the traveler couldn’t resist.`,
-    arduino: "act2Switch",
-  },
+  // {
+  //   audio: "stg1_3.mp3",
+  //   text: `At the front of the chest, on the right side, there was a lock hanging in place; on the left, a large keyhole almost seemed to invite them to peek inside—and the traveler couldn’t resist.`,
+  //   arduino: "act1Switch",
+  // },
   // {
   //   audio: "stg1_4.mp3",
   //   text: `They were immediately surprised by the wonderful things within and couldn’t wait to open it!`,
@@ -57,10 +57,10 @@ export const stg1_sequence = [
   //   audio: "stg1_5.mp3",
   //   text: `They picked up the key and tried it in the lock. It fit perfectly.`,
   // },
-  {
-    audio: "stg1_6.mp3",
-    text: `Then they turned it once around, and now we must wait until they have fully unlocked it and lifted the lid—only then shall we learn what wonderful things lie within that chest.`,
-  },
+  // {
+  //   audio: "stg1_6.mp3",
+  //   text: `Then they turned it once around, and now we must wait until they have fully unlocked it and lifted the lid—only then shall we learn what wonderful things lie within that chest.`,
+  // },
 ];
 
 export const stgMid_sequence = [
@@ -68,10 +68,13 @@ export const stgMid_sequence = [
   //   audio: "stgMid_1.mp3",
   //   text: `Wonderful, traveler. I hope you enjoyed the first tale. Now, take the golden key resting before the chest and unlock its secret.`,
   // },
-  // {
-  //   audio: "stgMid_2.mp3",
-  //   text: `Once the chest is open, place the display—the magical transcription device—inside, where the label awaits.`,
-  // },
+  {
+    audio: "stgMid_2.mp3",
+    text: `Once the chest is open, place the display—the magical transcription device—inside, where the label awaits. When you are ready, press [The Golden Key] to continue your journey!`,
+  },
+];
+
+export const stgMidDone_sequence = [
   {
     audio: "stgMid_3.mp3",
     text: `Excellent. You are now ready for the next chapter of your journey. Let the magic continue! `,
@@ -79,13 +82,14 @@ export const stgMid_sequence = [
 ];
 
 export const stg2_sequence = [
-  {
-    audio: "stg2_v3_1.mp3",
-    text: `Once upon a time, a cheerful puppeteer traveled far and wide, enchanting audiences with a puppet show carried inside their chest of wonders.`,
-  },
+  // {
+  //   audio: "stg2_v3_1.mp3",
+  //   text: `Once upon a time, a cheerful puppeteer traveled far and wide, enchanting audiences with a puppet show carried inside their chest of wonders.`,
+  // },
   // {
   //   audio: "stg2_v3_2.mp3",
   //   text: `One evening, during a lively performance, they met a mysterious scholar who shared their love for theater and science.`,
+  //   arduino: "act2Switch",
   // },
   // {
   //   audio: "stg2_v3_3.mp3",
@@ -94,10 +98,12 @@ export const stg2_sequence = [
   // {
   //   audio: "stg2_v3_4.mp3",
   //   text: `With a laugh and a clink of glasses, magic filled the air—the puppets came to life, and the puppeteer became their director.`,
+  //   arduino: "allFalse",
   // },
   // {
   //   audio: "stg2_v3_5.mp3",
   //   text: `At first, the puppeteer thought they could simply sit back and watch the magic unfold.`,
+  //   arduino: "act4Switch",
   // },
   // {
   //   audio: "stg2_v3_6.mp3",
@@ -110,6 +116,7 @@ export const stg2_sequence = [
   // {
   //   audio: "stg2_v3_8.mp3",
   //   text: `First, they found the Curious Ballerina backstage, lost in thoughtful daydreams.`,
+  //   arduino: "char1Swch",
   // },
   // {
   //   audio: "stg2_v3_9.mp3",
@@ -119,59 +126,70 @@ export const stg2_sequence = [
   //   interaction: true,
   //   text: `As the puppeteer approached, she asked softly, “I’ve always wondered, is there more beyond the curtains—can I peek just a little?”`,
   //   prompt: `the user is being ask by the Curious Ballerina: “I’ve always wondered, is there more beyond the curtains—can I peek just a little?” Comment and summarize on user's response. Please be concise, within a sentence.`,
+  //   voiceId: "wJqPPQ618aTW29mptyoc"
   // },
   // {
   //   audio: "stg2_v3_10.mp3",
   //   text: `After speaking with the Ballerina, the puppeteer came across the Masked Acrobat, who was carefully examining their collection of masks.`,
+  //   arduino: "char2Swch",
   // },
-  // {
-  //   audio: "stg2_v3_11.mp3",
-  //   text: `The Acrobat asked with uncertainty “I’ve always chosen my masks based on what makes others happy—what if I pick a mask just because it makes me smile?”`,
-  // },
-  // {
-  //   interaction: true,
-  //   text: `The Acrobat asked with uncertainty “I’ve always chosen my masks based on what makes others happy—what if I pick a mask just because it makes me smile?”`,
-  //   prompt: `the user is being ask by the Acrobat “I’ve always chosen my masks based on what makes others happy—what if I pick a mask just because it makes me smile?" Comment and summarize on user's response. Please be concise, within a sentence.`,
-  // },
-  // {
-  //   audio: "stg2_v3_12.mp3",
-  //   text: `Next, the enthusiastic Magician approached, brimming with excitement yet also confusion.“I have so many dreams and ideas—how do I know which one to follow first?” they wondered aloud.`,
-  // },
-  // {
-  //   interaction: true,
-  //   text: `Next, the enthusiastic Magician approached, brimming with excitement yet also confusion.“I have so many dreams and ideas—how do I know which one to follow first?” they wondered aloud.`,
-  //   prompt: `the user is being ask by the enthusiastic Magician  “I have so many dreams and ideas—how do I know which one to follow first?” they wondered aloud." Comment and summarize on user's response. Please be concise, within a sentence.`,
-  // },
+  {
+    audio: "stg2_v3_11.mp3",
+    text: `The Acrobat asked with uncertainty “I’ve always chosen my masks based on what makes others happy—what if I pick a mask just because it makes me smile?”`,
+  },
+  {
+    interaction: true,
+    text: `The Acrobat asked with uncertainty “I’ve always chosen my masks based on what makes others happy—what if I pick a mask just because it makes me smile?”`,
+    prompt: `the user is being ask by the Acrobat “I’ve always chosen my masks based on what makes others happy—what if I pick a mask just because it makes me smile?" Comment and summarize on user's response. Please be concise, within a sentence.`,
+    voiceId: "ZF6FPAbjXT4488VcRRnw" 
+  },
+  {
+    audio: "stg2_v3_12.mp3",
+    text: `Next, the enthusiastic Pirates approached, brimming with excitement yet also confusion.“I have so many dreams and ideas—how do I know which one to follow first?” they wondered aloud.`,
+    arduino: "char3Swch",
+  },
+  {
+    interaction: true,
+    text: `Next, the enthusiastic Pirates approached, brimming with excitement yet also confusion.“I have so many dreams and ideas—how do I know which one to follow first?” they wondered aloud.`,
+    prompt: `the user is being ask by the enthusiastic Pirates  “I have so many dreams and ideas—how do I know which one to follow first?” they wondered aloud." Comment and summarize on user's response. Please be concise, within a sentence.`,
+    voiceId: "Z3R5wn05IrDiVCyEkUrK" 
+  },
   // {
   //   audio: "stg2_v3_13.mp3",
-  //   text: `As the Magician wandered away in contemplation, the puppeteer noticed the Traveler by the doorway, maps and backpack in hand.`,
+  //   text: `As the Pirates wandered away in contemplation, the puppeteer noticed the Traveler by the doorway, maps and backpack in hand.`,
+  //   arduino: "char4Swch",
   // },
-  // {
-  //   audio: "stg2_v3_14.mp3",
-  //   text: `With bright eyes full of curiosity, the Traveler asked, “What’s the best thing to do if the road ahead looks exciting, but I’m not sure where it leads?”`,
-  // },
-  // {
-  //   interaction: true,
-  //   text: `With bright eyes full of curiosity, the Traveler asked, “What’s the best thing to do if the road ahead looks exciting, but I’m not sure where it leads?”`,
-  //   prompt: `the user is being ask by the Traveler: “What’s the best thing to do if the road ahead looks exciting, but I’m not sure where it leads?" Comment and summarize on user's response. Please be concise, within a sentence.`,
-  // },
+  {
+    audio: "stg2_v3_14.mp3",
+    text: `With bright eyes full of curiosity, the Traveler asked, “What’s the best thing to do if the road ahead looks exciting, but I’m not sure where it leads?”`,
+  },
+  {
+    interaction: true,
+    audio: "stg2_v3_14.mp3",
+    text: `With bright eyes full of curiosity, the Traveler asked, “What’s the best thing to do if the road ahead looks exciting, but I’m not sure where it leads?”`,
+    prompt: `the user is being ask by the Traveler: “What’s the best thing to do if the road ahead looks exciting, but I’m not sure where it leads?" Comment and summarize on user's response. Please be concise, within a sentence.`,
+    voiceId: "tnSpp4vdxKPjI9w0GnoV" 
+  },
   // {
   //   audio: "stg2_v3_15.mp3",
   //   text: `Finally, near a dressing mirror stood the Apprentice, carefully inspecting their partly finished costume.`,
+  //   arduino: "char5Swch",
   // },
-  // {
-  //   audio: "stg2_v3_16.mp3",
-  //   text: `Seeing the puppeteer approach, the Apprentice voiced their uncertainty, “If my outfit still has a few loose stitches, is it alright to step onto the stage confidently anyway?”`,
-  // },
-  // {
-  //   interaction: true,
-  //   text: `Seeing the puppeteer approach, the Apprentice voiced their uncertainty, “If my outfit still has a few loose stitches, is it alright to step onto the stage confidently anyway?”`,
-  //   prompt: `the user is being ask by the Apprentice: “If my outfit still has a few loose stitches, is it alright to step onto the stage confidently anyway?" Comment and summarize on user's response. Please be concise, within a sentence.`,
-  // },
-  // {
-  //   audio: "stg2_v3_17.mp3",
-  //   text: `Having spoken with all the actors, the puppeteer returned to the familiar chest where the puppets had rested before coming alive.`,
-  // },
+  {
+    audio: "stg2_v3_16.mp3",
+    text: `Seeing the puppeteer approach, the Apprentice voiced their uncertainty, “If my outfit still has a few loose stitches, is it alright to step onto the stage confidently anyway?”`,
+  },
+  {
+    interaction: true,
+    text: `Seeing the puppeteer approach, the Apprentice voiced their uncertainty, “If my outfit still has a few loose stitches, is it alright to step onto the stage confidently anyway?”`,
+    prompt: `the user is being ask by the Apprentice: “If my outfit still has a few loose stitches, is it alright to step onto the stage confidently anyway?" Comment and summarize on user's response. Please be concise, within a sentence.`,
+    voiceId: "N2yy09ofJlJaywlNAv4s"
+  },
+  {
+    audio: "stg2_v3_17.mp3",
+    text: `Having spoken with all the actors, the puppeteer returned to the familiar chest where the puppets had rested before coming alive.`,
+    arduino: "allFalse",
+  },
   // {
   //   audio: "stg2_v3_18.mp3",
   //   text: `Feeling both exhausted and fulfilled, they sat down beside the chest and drifted into a peaceful sleep.`,
@@ -192,21 +210,21 @@ export const stg2_sequence = [
   //   audio: "stg2_v3_22.mp3",
   //   text: `With a gentle smile, the puppeteer closed the chest without locking it, quietly recognizing how each conversation had woven curiosity and courage into their life’s tapestry.`,
   // },
-  // {
-  //   audio: "stg2_v3_23.mp3",
-  //   text: `With renewed spirit, they stepped forward into the day, guided by the gentle lessons learned from their magical companions.`,
-  // },
+  {
+    audio: "stg2_v3_23.mp3",
+    text: `With renewed spirit, they stepped forward into the day, guided by the gentle lessons learned from their magical companions.`,
+  },
 ];
 
 export const stgEnd_sequence = [
-  // {
-  //   audio: "stgEnd_1.mp3",
-  //   text: `Dear traveler, thank you for journeying through Twice Upon A Time. I hope your time here was magical.`,
-  // },
-  // {
-  //   audio: "stgEnd_2.mp3",
-  //   text: `Our story ends for now. If you wish, take the golden key with you as a keepsake—there is a hidden NFC chip inside!`,
-  // },
+  {
+    audio: "stgEnd_1.mp3",
+    text: `Dear traveler, thank you for journeying through Twice Upon A Time. I hope your time here was magical.`,
+  },
+  {
+    audio: "stgEnd_2.mp3",
+    text: `Our story ends for now. If you wish, take the golden key with you as a keepsake—there is a hidden NFC chip inside!`,
+  },
   {
     audio: "stgEnd_3.mp3",
     text: `May your day be filled with wonder until our paths cross again.`,
