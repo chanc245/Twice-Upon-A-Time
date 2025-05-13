@@ -18,7 +18,7 @@ export const stg0_sequence = [
   },
   {
     audio: "stg0_intro_3.mp3",
-    text: `In front of you, you’ll find two enchanted tools: a small keyboard and a microphone. \nThese will help you speak with the world inside the chest.`,
+    text: `In front of you, you’ll find two enchanted tools: [a small keyboard] and [a microphone]. \nThese will help you speak with the world inside the chest.`,
   },
   {
     audio: "stg0_intro_4.mp3",

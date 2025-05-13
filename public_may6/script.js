@@ -246,7 +246,7 @@ async function runSequence({ steps, basePath }) {
 async function generateAndPlaySummary() {
   try {
     console.log("🎭 Starting summary generation process...");
-    statusText.textContent = "Weaving your words into the story’s thread…";
+    statusText.textContent = "Weaving your words into the story's thread…";
 
     // Step 1: Force audio combination and voice cloning
     console.log("🔄 Combining stored audio files...");
@@ -270,7 +270,7 @@ async function generateAndPlaySummary() {
 
     if (storedTexts && storedTexts.length > 0) {
       // Step 3: Generate summary using GPT
-      const summaryPrompt = "In one warm, positive sentence, please summarize all the feedback from a first-person perspective.";
+      const summaryPrompt = "In ONE warm, positive SENTENCE, please summarize all the feedback from a first-person perspective.";
       const fullPrompt = `${summaryPrompt}\n\nUser responses:\n${storedTexts.join("\n")}`;
       
       console.log("🤖 Sending to GPT for summary...");
@@ -287,8 +287,11 @@ async function generateAndPlaySummary() {
       const { ai: summary } = await summaryResponse.json();
       console.log("✅ Summary generated:", summary);
 
+      // Display the summary text
+      displayText.innerHTML = summary.replace(/\n/g, "<br>");
+      statusText.textContent = "Letting your tale come to life…";
+
       // Step 4: Convert summary to speech using the newly cloned voice
-      statusText.textContent = "Converting summary to speech...";
       const audioResponse = await fetch("/text-to-speech", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -305,7 +308,6 @@ async function generateAndPlaySummary() {
       const { audioFilePath } = await audioResponse.json();
 
       // Step 5: Play the summary audio
-      statusText.textContent = "Playing summary...";
       const audio = new Audio(audioFilePath);
       
       return new Promise((resolve, reject) => {
@@ -316,7 +318,8 @@ async function generateAndPlaySummary() {
         };
         audio.onerror = (error) => {
           console.error("❌ Error playing summary:", error);
-          statusText.textContent = "Failed to play summary";
+          statusText.textContent = "Please try again.";
+          displayText.innerHTML = "The story missed a beat. Please try again.";
           reject(error);
         };
         audio.play();
@@ -324,10 +327,12 @@ async function generateAndPlaySummary() {
     } else {
       console.log("⚠️ No stored text inputs to summarize");
       statusText.textContent = "";
+      displayText.innerHTML = "No responses to summarize";
     }
   } catch (error) {
     console.error("❌ Error in summary generation:", error);
     statusText.textContent = "Failed to generate summary";
+    displayText.innerHTML = "Failed to generate summary";
     throw error;
   }
 }
