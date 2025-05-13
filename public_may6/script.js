@@ -246,7 +246,7 @@ async function runSequence({ steps, basePath }) {
 async function generateAndPlaySummary() {
   try {
     console.log("🎭 Starting summary generation process...");
-    statusText.textContent = "Processing audio and generating summary...";
+    statusText.textContent = "Weaving your words into the story’s thread…";
 
     // Step 1: Force audio combination and voice cloning
     console.log("🔄 Combining stored audio files...");
@@ -270,7 +270,7 @@ async function generateAndPlaySummary() {
 
     if (storedTexts && storedTexts.length > 0) {
       // Step 3: Generate summary using GPT
-      const summaryPrompt = "in ONE sentence, please summarize positively all the feedback";
+      const summaryPrompt = "In one warm, positive sentence, please summarize all the feedback from a first-person perspective.";
       const fullPrompt = `${summaryPrompt}\n\nUser responses:\n${storedTexts.join("\n")}`;
       
       console.log("🤖 Sending to GPT for summary...");
@@ -362,7 +362,7 @@ async function startStory() {
     };
 
     const sequenceMidDone = {
-      basePath: "./assets/stgMidDone/",
+      basePath: "./assets/stgMid/",
       steps: stgMidDone_sequence,
     };
 
@@ -417,11 +417,14 @@ async function startStory() {
       document.addEventListener("keydown", onKeyDown);
     });
 
+    // Continue sequence
     await runSequence(sequenceMidDone);
     await runSequence(sequence2);
 
+    // After all interactions are complete, generate and play summary
     await generateAndPlaySummary();
 
+    // End sequences
     await runSequence(sequence2End);
     await runSequence(sequenceEnd);
 
