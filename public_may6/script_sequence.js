@@ -47,7 +47,8 @@ export const stg0_sequence = [
 export const stg1_sequence = [
   {
     audio: "intro_music.mp3",
-    text: `Once upon a thesis show time, when the weather was pleasant outside, a traveler wandered to the corner of a room.`,
+    text: `~ The Golden Key ~`,
+    arduino: "allFalse",
   },
   {
     audio: "stg1_1.mp3",
@@ -59,7 +60,11 @@ export const stg1_sequence = [
   },
   {
     audio: "stg1_3.mp3",
-    text: `At the front of the chest, on the right side, there was a lock hanging in place; on the left, a large keyhole almost seemed to invite them to peek inside—and the traveler couldn’t resist.`,
+    text: `At the front of the chest, on the right side, there was a lock hanging in place.`,
+  },
+  {
+    audio: "stg1_3_1.mp3",
+    text: `On the left, the large keyhole suddenly lit up—it almost seemed to invite them to peek inside—and the traveler could not resist.`,
     arduino: "act1Switch",
   },
   {
@@ -87,7 +92,7 @@ export const stgMid_sequence = [
   },
   {
     audio: "stgMid_2.mp3",
-    text: `Once the chest is open, place the display—the magical transcription device—inside, where the label awaits. When you are ready, press [The Golden Key] to continue your journey!`,
+    text: `When the chest is open and you are ready, press [The Golden Key] to continue your journey!`,
   },
 ];
 
@@ -101,35 +106,35 @@ export const stgMidDone_sequence = [
 export const stg2_sequence = [
   {
     audio: "intro_music.mp3",
-    text: `Once upon a time, a cheerful puppeteer traveled far and wide, enchanting audiences with a puppet show carried inside their chest of wonders.`,
+    text: `~ The Puppet Show Man ~`,
   },
   {
     audio: "stg2_v3_1.mp3",
     text: `Once upon a time, a cheerful puppeteer traveled far and wide, enchanting audiences with a puppet show carried inside their chest of wonders.`,
+    arduino: "act2Switch",
   },
   {
     audio: "stg2_v3_2.mp3",
     text: `One evening, during a lively performance, they met a mysterious scholar who shared their love for theater and science.`,
-    arduino: "act2Switch",
+    arduino: "allFalse",
   },
   {
     audio: "stg2_v3_3.mp3",
     text: `Over drinks, the scholar asked if the puppeteer would be truly happy if the puppets became real.`,
+    arduino: "act4Switch",
   },
   {
     audio: "stg2_v3_4.mp3",
     text: `With a laugh and a clink of glasses, magic filled the air—the puppets came to life, and the puppeteer became their director.`,
-    arduino: "allFalse",
+    arduino: "charAllSwch"
   },
   {
     audio: "stg2_v3_5.mp3",
     text: `At first, the puppeteer thought they could simply sit back and watch the magic unfold.`,
-    arduino: "act4Switch",
   },
   {
     audio: "stg2_v3_6.mp3",
     text: `However, it soon became clear that their puppets-turned-actors were less interested in performing and far more captivated by the wonders of the world around them.`,
-    arduino: "act4Switch",
   },
   {
     audio: "stg2_v3_7.mp3",
