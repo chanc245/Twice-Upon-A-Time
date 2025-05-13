@@ -17,7 +17,13 @@ export const saveAudio = async (audioChunks) => {
 
   return new Promise((resolve, reject) => {
     wavWriter.pipe(fs.createWriteStream(filePath));
-    wavWriter.on("finish", () => resolve(filename));
+    wavWriter.on("finish", () => {
+      console.log("✅ Audio saved:", filename);
+      resolve({
+        filename: filename,
+        path: filePath
+      });
+    });
     wavWriter.on("error", reject);
     wavWriter.end(audioBuffer);
   });

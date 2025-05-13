@@ -141,12 +141,13 @@ export const stg2_sequence = [
   //   audio: "stg2_v3_9.mp3",
   //   text: `As the puppeteer approached, she asked softly, “I’ve always wondered, is there more beyond the curtains—can I peek just a little?”`,
   // },
-  // {
-  //   interaction: true,
-  //   text: `As the puppeteer approached, she asked softly, “I’ve always wondered, is there more beyond the curtains—can I peek just a little?”`,
-  //   prompt: `Within a sentence, please respond as a timidity ballerina to the user's response positively.`,
-  //   voiceId: "wJqPPQ618aTW29mptyoc"
-  // },
+  {
+    interaction: true,
+    store: true,
+    text: `As the puppeteer approached, she asked softly, “I’ve always wondered, is there more beyond the curtains—can I peek just a little?”`,
+    prompt: `Within a sentence, please respond as a timidity ballerina to the user's response positively.`,
+    voiceId: "wJqPPQ618aTW29mptyoc",
+  },
   // {
   //   audio: "stg2_v3_10.mp3",
   //   text: `After speaking with the Ballerina, the puppeteer came across the Masked Acrobat, who was carefully examining their collection of masks.`,
@@ -156,23 +157,25 @@ export const stg2_sequence = [
   //   audio: "stg2_v3_11.mp3",
   //   text: `The Acrobat asked with uncertainty “I’ve always chosen my masks based on what makes others happy—what if I pick a mask just because it makes me smile?”`,
   // },
-  // {
-  //   interaction: true,
-  //   text: `The Acrobat asked with uncertainty “I’ve always chosen my masks based on what makes others happy—what if I pick a mask just because it makes me smile?”`,
-  //   prompt: `Within a sentence, please respond as an careful acrobat to the user's response positively.`,
-  //   voiceId: "ZF6FPAbjXT4488VcRRnw"
-  // },
+  {
+    interaction: true,
+    store: true,
+    text: `The Acrobat asked with uncertainty “I’ve always chosen my masks based on what makes others happy—what if I pick a mask just because it makes me smile?”`,
+    prompt: `Within a sentence, please respond as an careful acrobat to the user's response positively.`,
+    voiceId: "ZF6FPAbjXT4488VcRRnw"
+  },
   // {
   //   audio: "stg2_v3_12.mp3",
   //   text: `Next, the enthusiastic Pirates approached, brimming with excitement yet also confusion.“I have so many dreams and ideas—how do I know which one to follow first?” they wondered aloud.`,
   //   arduino: "char3Swch",
   // },
-  // {
-  //   interaction: true,
-  //   text: `Next, the enthusiastic Pirates approached, brimming with excitement yet also confusion.“I have so many dreams and ideas—how do I know which one to follow first?” they wondered aloud.`,
-  //   prompt: `Within a sentence, please respond as an brave pirate to the user's response positively.`,
-  //   voiceId: "Z3R5wn05IrDiVCyEkUrK"
-  // },
+  {
+    interaction: true,
+    store: true,
+    text: `Next, the enthusiastic Pirates approached, brimming with excitement yet also confusion.“I have so many dreams and ideas—how do I know which one to follow first?” they wondered aloud.`,
+    prompt: `Within a sentence, please respond as an brave pirate to the user's response positively.`,
+    voiceId: "Z3R5wn05IrDiVCyEkUrK"
+  },
   // {
   //   audio: "stg2_v3_13.mp3",
   //   text: `As the Pirates wandered away in contemplation, the puppeteer noticed the Traveler by the doorway, maps and backpack in hand.`,
@@ -182,13 +185,13 @@ export const stg2_sequence = [
   //   audio: "stg2_v3_14.mp3",
   //   text: `With bright eyes full of curiosity, the Traveler asked, “What’s the best thing to do if the road ahead looks exciting, but I’m not sure where it leads?”`,
   // },
-  // {
-  //   interaction: true,
-  //   audio: "stg2_v3_14.mp3",
-  //   text: `With bright eyes full of curiosity, the Traveler asked, “What’s the best thing to do if the road ahead looks exciting, but I’m not sure where it leads?”`,
-  //   prompt: `Within a sentence, please respond as an exciting traveler to the user's response positively.`,
-  //   voiceId: "tnSpp4vdxKPjI9w0GnoV"
-  // },
+  {
+    interaction: true,
+    store: true,
+    text: `With bright eyes full of curiosity, the Traveler asked, “What’s the best thing to do if the road ahead looks exciting, but I’m not sure where it leads?”`,
+    prompt: `Within a sentence, please respond as an exciting traveler to the user's response positively.`,
+    voiceId: "tnSpp4vdxKPjI9w0GnoV"
+  },
   // {
   //   audio: "stg2_v3_15.mp3",
   //   text: `Finally, near a dressing mirror stood the Apprentice, carefully inspecting their partly finished costume.`,
@@ -198,12 +201,13 @@ export const stg2_sequence = [
   //   audio: "stg2_v3_16.mp3",
   //   text: `Seeing the puppeteer approach, the Apprentice voiced their uncertainty, “If my outfit still has a few loose stitches, is it alright to step onto the stage confidently anyway?”`,
   // },
-  // {
-  //   interaction: true,
-  //   text: `Seeing the puppeteer approach, the Apprentice voiced their uncertainty, “If my outfit still has a few loose stitches, is it alright to step onto the stage confidently anyway?”`,
-  //   prompt: `Within a sentence, please respond as an uncertain Apprentice to the user's response positively.`,
-  //   voiceId: "N2yy09ofJlJaywlNAv4s"
-  // },
+  {
+    interaction: true,
+    store: true,
+    text: `Seeing the puppeteer approach, the Apprentice voiced their uncertainty, “If my outfit still has a few loose stitches, is it alright to step onto the stage confidently anyway?”`,
+    prompt: `Within a sentence, please respond as an uncertain Apprentice to the user's response positively.`,
+    voiceId: "N2yy09ofJlJaywlNAv4s"
+  },
   // {
   //   audio: "stg2_v3_17.mp3",
   //   text: `Having spoken with all the actors, the puppeteer returned to the familiar chest where the puppets had rested before coming alive.`,

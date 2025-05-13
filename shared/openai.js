@@ -14,9 +14,9 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export const transcribeAudio = async (filename) => {
+export const transcribeAudio = async (filePath) => {
   console.log("Transcribing audio...");
-  const audioFile = fs.createReadStream(`./audio/${filename}`);
+  const audioFile = fs.createReadStream(filePath);
   const response = await openai.audio.transcriptions.create({
     file: audioFile,
     model: "whisper-1",

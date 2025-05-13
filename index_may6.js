@@ -28,7 +28,7 @@ let gptAudioFiles = [];
 let otherKeepFiles = ["user_filelist.txt"];
 let transcriptionArchives = [];
 let gptResponseArchives = [];
-const userAudioFilesCombineNum = 10;
+const userAudioFilesCombineNum = 6;
 let VOICE_ID = "ZF6FPAbjXT4488VcRRnw";
 let voiceIDList = [];
 let voiceIDDeleteList = [];
@@ -82,7 +82,10 @@ app.post("/stop-recording", async (req, res) => {
       throw new Error("Failed to save audio file");
     }
 
-    const transcription = await openai.transcribeAudio(audioFile);
+    console.log("📁 New audio file saved:", audioFile.filename);
+    userAudioFiles.push(audioFile.filename);
+
+    const transcription = await openai.transcribeAudio(audioFile.path);
     if (!transcription) {
       throw new Error("Failed to transcribe audio");
     }
@@ -178,6 +181,16 @@ app.get("/latest-transcription", (req, res) => {
   }
 });
 
+app.get("/get-stored-inputs", (req, res) => {
+  try {
+    const storedTexts = glo.getStoredTextInputs();
+    res.json({ storedTexts });
+  } catch (error) {
+    console.error("Error getting stored inputs:", error);
+    res.status(500).json({ error: "Failed to get stored inputs" });
+  }
+});
+
 // Arduino communication endpoints
 app.get("/displaySwitch", (req, res) => {
   sendMsgToArduino("displaySwitch");
@@ -265,8 +278,82 @@ async function processSequenceStep(step) {
     if (step.interaction) {
       // Interaction logic here
     }
+
+    // Handle store condition if present
+    if (step.store) {
+      console.log("📝 Storing user inputs...");
+      
+      // Store the user's text input
+      if (transcriptionArchives.length > 0) {
+        const latestTranscription = transcriptionArchives[transcriptionArchives.length - 1];
+        glo.addStoredTextInput(latestTranscription);
+      }
+
+      // Store the user's voice input (audio filename)
+      console.log("🎤 Checking for audio files to store...");
+      
+      if (userAudioFiles.length > 0) {
+        const latestAudioFile = userAudioFiles[userAudioFiles.length - 1];
+        console.log("🎵 Found latest audio file:", latestAudioFile);
+        glo.addStoredAudioFile(latestAudioFile);
+        console.log("💾 Stored audio files:", glo.getStoredAudioFiles());
+
+        // Only process audio and clone voice if we have enough samples
+        if (userAudioFiles.length >= userAudioFilesCombineNum) {
+          console.log("🎙️ Voice cloning threshold reached, starting process...");
+          await processAudioAndVoiceClone();
+        } else {
+          console.log(`🎙️ Need ${userAudioFilesCombineNum - userAudioFiles.length} more audio samples before voice cloning`);
+        }
+      } else {
+        console.log("⚠️ No audio files available to store");
+      }
+    }
   } catch (error) {
     console.error("Error processing sequence step:", error);
+  }
+}
+
+// New function to handle audio combination and voice cloning
+async function processAudioAndVoiceClone() {
+  try {
+    console.log("🎵 Starting audio processing and voice cloning...");
+    glo.setCurrentStatus("Processing audio files...");
+    currentStatus = "Processing audio files...";
+
+    // Step 1: Combine audio files
+    console.log("🔄 Combining audio files...");
+    const combinedFilePath = await audio.combineAudioFiles(folderPath, userAudioFiles);
+    console.log("✅ Audio files combined successfully:", combinedFilePath);
+
+    // Step 2: Clone voice
+    console.log("🎙️ Starting voice cloning process...");
+    glo.setCurrentStatus("Starting voice cloning...");
+    currentStatus = "Starting voice cloning...";
+
+    const newVoiceID = await elevenlab.cloneUserVoice(combinedFilePath, userCloneNum);
+    console.log("✅ Voice cloned successfully. New Voice ID:", newVoiceID);
+
+    // Handle voice ID management
+    const previousVoiceId = glo.getVoiceId();
+    if (voiceIDList.includes(previousVoiceId)) {
+      await elevenlab.deleteOldVoice(previousVoiceId, voiceIDDeleteList);
+    }
+
+    // Update voice tracking
+    glo.setVoiceId(newVoiceID);
+    userCloneNum += 1;
+    voiceIDList.push(newVoiceID);
+
+    console.log("🎉 Voice processing completed successfully!");
+    glo.setCurrentStatus("Voice processing completed");
+    currentStatus = "Voice processing completed";
+
+  } catch (error) {
+    console.error("❌ Error in audio processing and voice cloning:", error);
+    glo.setCurrentStatus("Error in voice processing");
+    currentStatus = "Error in voice processing";
+    throw error;
   }
 }
 
@@ -278,34 +365,40 @@ wss.on("connection", (ws) => {
   // Send ready message to the client
   ws.send("ready");
 
-// Assuming you're receiving the data in a WebSocket connection
-ws.on('message', function(data) {
-  // Convert the buffer to a string
-  const message = data.toString('utf8');
-  // console.log('Raw message received:', message);
-  
-  try {
-    const jsonData = JSON.parse(message);
-    // console.log('Parsed JSON data:', jsonData);
+  // Assuming you're receiving the data in a WebSocket connection
+  ws.on('message', function(data) {
+    // Convert the buffer to a string
+    const message = data.toString('utf8');
+    console.log('Raw message received:', message);
     
-    // Handle Arduino commands
-    if (jsonData.type === "arduino_command") {
-      console.log('Sending Arduino command:', jsonData.command);
-      sendMsgToArduino(jsonData.command);
-      return;
+    try {
+      const jsonData = JSON.parse(message);
+      // console.log('Parsed JSON data:', jsonData);
+      
+      // Handle sequence steps
+      if (jsonData.type === "sequence_step") {
+        // console.log('Processing sequence step:', jsonData.step);
+        processSequenceStep(jsonData.step);
+      }
+      
+      // Handle Arduino commands
+      if (jsonData.type === "arduino_command") {
+        console.log('Sending Arduino command:', jsonData.command);
+        sendMsgToArduino(jsonData.command);
+        return;
+      }
+      
+      // Handle display switch
+      if (jsonData.displaySwitch === true) {
+        console.log('Display switch is ON, sending to client...');
+        const clientMessage = JSON.stringify({ type: "displaySwitch", status: true });
+        console.log('Sending to client:', clientMessage);
+        ws.send(clientMessage);
+      }
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
     }
-    
-    // Handle display switch
-    if (jsonData.displaySwitch === true) {
-      console.log('Display switch is ON, sending to client...');
-      const clientMessage = JSON.stringify({ type: "displaySwitch", status: true });
-      console.log('Sending to client:', clientMessage);
-      ws.send(clientMessage);
-    }
-  } catch (error) {
-    console.error('Error parsing JSON:', error);
-  }
-});
+  });
 
   ws.on("close", () => {
     console.log("Client disconnected");
@@ -345,9 +438,10 @@ export const handleRecording = async () => {
       throw new Error("Failed to save audio file");
     }
 
-    userAudioFiles.push(audioFile);
+    console.log("📁 New audio file saved:", audioFile.filename);
+    userAudioFiles.push(audioFile.filename);
 
-    const transcription = await openai.transcribeAudio(audioFile);
+    const transcription = await openai.transcribeAudio(audioFile.path);
     if (!transcription) {
       throw new Error("Failed to transcribe audio");
     }
@@ -431,6 +525,38 @@ const debugFunctions = () => {
   console.log("--voiceIDDeleteList:", voiceIDDeleteList);
   console.log("---");
 };
+
+app.post("/combine-and-clone", async (req, res) => {
+  try {
+    console.log("🎵 Starting forced audio combination and voice cloning...");
+    
+    // Step 1: Combine audio files
+    console.log("🔄 Combining audio files...");
+    const combinedFilePath = await audio.combineAudioFiles(folderPath, userAudioFiles);
+    console.log("✅ Audio files combined successfully:", combinedFilePath);
+
+    // Step 2: Clone voice
+    console.log("🎙️ Starting voice cloning process...");
+    const newVoiceID = await elevenlab.cloneUserVoice(combinedFilePath, userCloneNum);
+    console.log("✅ Voice cloned successfully. New Voice ID:", newVoiceID);
+
+    // Handle voice ID management
+    const previousVoiceId = glo.getVoiceId();
+    if (voiceIDList.includes(previousVoiceId)) {
+      await elevenlab.deleteOldVoice(previousVoiceId, voiceIDDeleteList);
+    }
+
+    // Update voice tracking
+    glo.setVoiceId(newVoiceID);
+    userCloneNum += 1;
+    voiceIDList.push(newVoiceID);
+
+    res.json({ newVoiceId: newVoiceID });
+  } catch (error) {
+    console.error("❌ Error in combine-and-clone:", error);
+    res.status(500).json({ error: "Failed to combine audio and clone voice" });
+  }
+});
 
 // Start server on port 8080
 const PORT = 8080;

@@ -2,6 +2,7 @@ import {
   stg0_sequence,
   stg1_sequence,
   stg2_sequence,
+  stg2End_sequence,
   stgEnd_sequence,
   stgMid_sequence,
   stgMidDone_sequence,
@@ -69,6 +70,7 @@ function initWebSocket() {
 // Function to send sequence step to server
 function sendSequenceStep(step) {
   if (ws && ws.readyState === WebSocket.OPEN) {
+    console.log('Sending sequence step to server:', step);
     // Send the full step data
     ws.send(
       JSON.stringify({
@@ -240,6 +242,96 @@ async function runSequence({ steps, basePath }) {
   }
 }
 
+// New function to handle summary generation and playback
+async function generateAndPlaySummary() {
+  try {
+    console.log("🎭 Starting summary generation process...");
+    statusText.textContent = "Processing audio and generating summary...";
+
+    // Step 1: Force audio combination and voice cloning
+    console.log("🔄 Combining stored audio files...");
+    const audioResponse = await fetch("/combine-and-clone", {
+      method: "POST"
+    });
+    
+    if (!audioResponse.ok) {
+      throw new Error("Failed to combine audio and clone voice");
+    }
+    
+    const { newVoiceId } = await audioResponse.json();
+    console.log("✅ Voice cloned successfully. New Voice ID:", newVoiceId);
+
+    // Step 2: Get stored text inputs
+    const response = await fetch("/get-stored-inputs");
+    if (!response.ok) {
+      throw new Error("Failed to get stored inputs");
+    }
+    const { storedTexts } = await response.json();
+
+    if (storedTexts && storedTexts.length > 0) {
+      // Step 3: Generate summary using GPT
+      const summaryPrompt = "in ONE sentence, please summarize positively all the feedback";
+      const fullPrompt = `${summaryPrompt}\n\nUser responses:\n${storedTexts.join("\n")}`;
+      
+      console.log("🤖 Sending to GPT for summary...");
+      const summaryResponse = await fetch("/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: fullPrompt })
+      });
+
+      if (!summaryResponse.ok) {
+        throw new Error("Failed to generate summary");
+      }
+
+      const { ai: summary } = await summaryResponse.json();
+      console.log("✅ Summary generated:", summary);
+
+      // Step 4: Convert summary to speech using the newly cloned voice
+      statusText.textContent = "Converting summary to speech...";
+      const audioResponse = await fetch("/text-to-speech", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: summary,
+          voiceId: newVoiceId
+        })
+      });
+
+      if (!audioResponse.ok) {
+        throw new Error("Failed to convert text to speech");
+      }
+
+      const { audioFilePath } = await audioResponse.json();
+
+      // Step 5: Play the summary audio
+      statusText.textContent = "Playing summary...";
+      const audio = new Audio(audioFilePath);
+      
+      return new Promise((resolve, reject) => {
+        audio.onended = () => {
+          console.log("✅ Summary playback complete");
+          statusText.textContent = "";
+          resolve();
+        };
+        audio.onerror = (error) => {
+          console.error("❌ Error playing summary:", error);
+          statusText.textContent = "Failed to play summary";
+          reject(error);
+        };
+        audio.play();
+      });
+    } else {
+      console.log("⚠️ No stored text inputs to summarize");
+      statusText.textContent = "";
+    }
+  } catch (error) {
+    console.error("❌ Error in summary generation:", error);
+    statusText.textContent = "Failed to generate summary";
+    throw error;
+  }
+}
+
 // Initialize the experience
 async function startStory() {
   try {
@@ -289,46 +381,46 @@ async function startStory() {
       steps: stgEnd_sequence,
     };
 
-    // // Run sequences in order
+    // Run sequences in order
 
-    // // Starting sequence - Intro music and text
-    // await runSequence(sequenceStart);
-    // statusText.textContent = "Please press [The Golden Key] to start your journey...";
-    // await new Promise((resolve) => {
-    //   const onKeyDown = (e) => {
-    //     if (e.code === "Period") {
-    //       console.log("Key pressed, continuing with story...");
-    //       document.removeEventListener("keydown", onKeyDown);
-    //       resolve();
-    //     }
-    //   };
-    //   document.addEventListener("keydown", onKeyDown);
-    // });
+    // Starting sequence - Intro music and text
+    await runSequence(sequenceStart);
+    statusText.textContent = "Please press [The Golden Key] to start your journey...";
+    await new Promise((resolve) => {
+      const onKeyDown = (e) => {
+        if (e.code === "Period") {
+          console.log("Key pressed, continuing with story...");
+          document.removeEventListener("keydown", onKeyDown);
+          resolve();
+        }
+      };
+      document.addEventListener("keydown", onKeyDown);
+    });
 
-    // // Stage 0 - Welcome and introduction
-    // await runSequence(sequence0);
-    // await runSequence(sequence1);
-    // await runSequence(sequenceMid);
+    // Stage 0 - Welcome and introduction
+    await runSequence(sequence0);
+    await runSequence(sequence1);
+    await runSequence(sequenceMid);
 
-    // // Wait for key press to continue
-    // console.log("Press [.] to continue...");
-    // statusText.textContent = "Press [The Golden Key] to continue your journey...";
+    // Wait for key press to continue
+    console.log("Press [.] to continue...");
+    statusText.textContent = "Press [The Golden Key] to continue your journey...";
     
-    // await new Promise((resolve) => {
-    //   const onKeyDown = (e) => {
-    //     if (e.code === "Period") {
-    //       console.log("Key pressed, continuing with story...");
-    //       document.removeEventListener("keydown", onKeyDown);
-    //       resolve();
-    //     }
-    //   };
-    //   document.addEventListener("keydown", onKeyDown);
-    // });
+    await new Promise((resolve) => {
+      const onKeyDown = (e) => {
+        if (e.code === "Period") {
+          console.log("Key pressed, continuing with story...");
+          document.removeEventListener("keydown", onKeyDown);
+          resolve();
+        }
+      };
+      document.addEventListener("keydown", onKeyDown);
+    });
 
-    // await runSequence(sequenceMidDone);
+    await runSequence(sequenceMidDone);
     await runSequence(sequence2);
 
-    //ADD AI INTERACTION HERE!!!!
+    await generateAndPlaySummary();
 
     await runSequence(sequence2End);
     await runSequence(sequenceEnd);
