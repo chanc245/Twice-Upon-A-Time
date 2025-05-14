@@ -37,6 +37,7 @@ export const stg0_sequence = [
     store: true,
     text: `Do you believe every treasure chest holds something special—even if it’s invisible?`,
     prompt: `Within a sentence, please encourage the user's answer.`,
+    voiceId: "ZF6FPAbjXT4488VcRRnw",
   },
   {
     audio: "stg0_intro_6.mp3",
