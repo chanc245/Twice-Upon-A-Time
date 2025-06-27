@@ -33,7 +33,7 @@ function initWebSocket() {
       try {
         const data = JSON.parse(event.data);
         console.log("Parsed WebSocket data:", data);
-        
+
         if (data.type === "ready") {
           serverReady = true;
           resolve();
@@ -70,7 +70,7 @@ function initWebSocket() {
 // Function to send sequence step to server
 function sendSequenceStep(step) {
   if (ws && ws.readyState === WebSocket.OPEN) {
-    console.log('Sending sequence step to server:', step);
+    console.log("Sending sequence step to server:", step);
     // Send the full step data
     ws.send(
       JSON.stringify({
@@ -85,7 +85,7 @@ function sendSequenceStep(step) {
       ws.send(
         JSON.stringify({
           type: "arduino_command",
-          command: step.arduino
+          command: step.arduino,
         })
       );
     }
@@ -120,7 +120,7 @@ async function playScene({ audio, text }, basePath) {
     audioElement.onloadstart = () => {
       console.log("📥 Starting to load audio:", audioPath);
     };
-    audioElement.play().catch(error => {
+    audioElement.play().catch((error) => {
       console.error("❌ Error playing audio:", error);
       statusText.textContent = "(Audio failed to play)";
       resolve();
@@ -251,13 +251,13 @@ async function generateAndPlaySummary() {
     // Step 1: Force audio combination and voice cloning
     console.log("🔄 Combining stored audio files...");
     const audioResponse = await fetch("/combine-and-clone", {
-      method: "POST"
+      method: "POST",
     });
-    
+
     if (!audioResponse.ok) {
       throw new Error("Failed to combine audio and clone voice");
     }
-    
+
     const { newVoiceId } = await audioResponse.json();
     console.log("✅ Voice cloned successfully. New Voice ID:", newVoiceId);
 
@@ -270,14 +270,17 @@ async function generateAndPlaySummary() {
 
     if (storedTexts && storedTexts.length > 0) {
       // Step 3: Generate summary using GPT
-      const summaryPrompt = "In ONE warm, positive SENTENCE, please summarize all the feedback from a first-person perspective.";
-      const fullPrompt = `${summaryPrompt}\n\nUser responses:\n${storedTexts.join("\n")}`;
-      
+      const summaryPrompt =
+        "In ONE warm, positive SENTENCE, please summarize all the feedback from a first-person perspective.";
+      const fullPrompt = `${summaryPrompt}\n\nUser responses:\n${storedTexts.join(
+        "\n"
+      )}`;
+
       console.log("🤖 Sending to GPT for summary...");
       const summaryResponse = await fetch("/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input: fullPrompt })
+        body: JSON.stringify({ input: fullPrompt }),
       });
 
       if (!summaryResponse.ok) {
@@ -297,8 +300,8 @@ async function generateAndPlaySummary() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           text: summary,
-          voiceId: newVoiceId
-        })
+          voiceId: newVoiceId,
+        }),
       });
 
       if (!audioResponse.ok) {
@@ -309,7 +312,7 @@ async function generateAndPlaySummary() {
 
       // Step 5: Play the summary audio
       const audio = new Audio(audioFilePath);
-      
+
       return new Promise((resolve, reject) => {
         audio.onended = () => {
           console.log("✅ Summary playback complete");
@@ -390,7 +393,8 @@ async function startStory() {
 
     // Starting sequence - Intro music and text
     await runSequence(sequenceStart);
-    statusText.textContent = "Please press [The Golden Key] to start your journey...";
+    statusText.textContent =
+      "Please press [The Golden Key] on the small keyboard to start your journey...";
     await new Promise((resolve) => {
       const onKeyDown = (e) => {
         if (e.code === "Period") {
@@ -409,8 +413,8 @@ async function startStory() {
 
     // Wait for key press to continue
     console.log("Press [.] to continue...");
-    statusText.textContent = "Press [The Golden Key] to continue your journey...";
-    
+    statusText.textContent = "Press [The Golden Key] on the small keyboard to continue your journey...";
+
     await new Promise((resolve) => {
       const onKeyDown = (e) => {
         if (e.code === "Period") {

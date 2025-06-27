@@ -1,15 +1,15 @@
 export const stgStart_sequence = [
   {
     audio: "intro_music.mp3",
-    text: `Twice Upon A Time`,
+    text: `Once Upon A Chest`,
     arduino: "allFalse",
   },
 ];
 
 export const stg0_sequence = [
   {
-    audio: "stg0_intro_1.mp3",
-    text: `Welcome to Twice Upon A Time, traveler.`,
+    audio: "stg0_intro_1_verITP.mp3",
+    text: `Welcome to Once Upon A Chest, traveler.`,
     arduino: "allFalse",
   },
   {
@@ -52,8 +52,8 @@ export const stg1_sequence = [
     arduino: "allFalse",
   },
   {
-    audio: "stg1_1.mp3",
-    text: `Once upon a thesis show time, when the weather was pleasant outside, a traveler wandered to the corner of a room.`,
+    audio: "stg1_1_verITP.mp3",
+    text: `Once upon an ITP Camp show time, when the weather was unbearably hot outside, a traveler wandered to the corner of a room.`,
   },
   {
     audio: "stg1_2.mp3",
@@ -92,8 +92,8 @@ export const stgMid_sequence = [
     text: `Wonderful, traveler. I hope you enjoyed the first tale. Now, take the golden key resting before the chest and unlock its secret.`,
   },
   {
-    audio: "stgMid_2.mp3",
-    text: `When the chest is open and you are ready, press [The Golden Key] to continue your journey!`,
+    audio: "stgMid_2_ver2.mp3",
+    text: `When the chest is open and you are ready, press [The Golden Key] on the small keyboard to continue your journey!`,
   },
 ];
 
@@ -258,8 +258,8 @@ export const stg2End_sequence = [
 
 export const stgEnd_sequence = [
   {
-    audio: "stgEnd_1.mp3",
-    text: `Dear traveler, thank you for journeying through Twice Upon A Time. I hope your time here was magical.`,
+    audio: "stgEnd_1_verITP.mp3",
+    text: `Dear traveler, thank you for journeying through Once Upon A Chest. I hope your time here was magical.`,
   },
   {
     audio: "stgEnd_2.mp3",
